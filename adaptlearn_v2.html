@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AdaptLearn — تحليل و تصميم نظم المعلومات</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #1A6FD4;
+  --blue-light: #E8F2FD;
+  --blue-dark: #0E4A9A;
+  --purple: #5B4FCF;
+  --purple-light: #EEEAFD;
+  --teal: #0D8A6E;
+  --teal-light: #E0F5EE;
+  --amber: #C47A0D;
+  --amber-light: #FDF0D5;
+  --coral: #C04A2A;
+  --coral-light: #FDEAE3;
+  --bg: #F7F9FC;
+  --bg2: #EEF2F8;
+  --surface: #FFFFFF;
+  --border: #DDE4EF;
+  --border2: #C8D3E8;
+  --text: #1A2340;
+  --text2: #5A6480;
+  --text3: #9AA3BC;
+  --radius: 14px;
+  --radius-sm: 9px;
+  --shadow: 0 2px 12px rgba(26,47,90,0.07);
+  --shadow-md: 0 4px 24px rgba(26,47,90,0.11);
+  --font: 'IBM Plex Sans Arabic', sans-serif;
+  --mono: 'IBM Plex Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  direction: rtl;
+  min-height: 100vh;
+  padding: 0;
+}
+
+.app-wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 0 40px;
+}
+
+/* ── Header ── */
+.app-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1A6FD4 0%, #0E4A9A 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(26,111,212,0.3);
+}
+
+.logo-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.3px;
+}
+
+.logo-sub {
+  font-size: 11px;
+  color: var(--text2);
+  margin-top: 1px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--text2);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-weight: 500;
+}
+
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #1D9E75;
+  animation: livePulse 1.5s infinite;
+}
+
+@keyframes livePulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.8)} }
+
+.step-dots {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.sdot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--border2);
+  transition: all 0.3s;
+}
+.sdot.on {
+  background: var(--blue);
+  transform: scale(1.2);
+}
+
+/* ── Screens ── */
+.scr { display: none; }
+.scr.on { display: block; }
+
+/* ── Screen content wrapper ── */
+.screen-body {
+  padding: 20px 20px 0;
+}
+
+/* ── Progress bar ── */
+.prog-wrap {
+  margin-bottom: 20px;
+}
+
+.prog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.prog-label {
+  font-size: 12px;
+  color: var(--text2);
+  font-weight: 500;
+}
+
+.prog-pct {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--blue);
+}
+
+.prog-track {
+  height: 5px;
+  background: var(--bg2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.prog-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue) 0%, #3B9FFF 100%);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+/* ── Course header ── */
+.course-header {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+}
+
+.course-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 5px;
+  line-height: 1.3;
+}
+
+.course-sub {
+  font-size: 13px;
+  color: var(--text2);
+}
+
+.course-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* ── Badge ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.1px;
+}
+
+.b-blue   { background: var(--blue-light); color: var(--blue-dark); }
+.b-purple { background: var(--purple-light); color: var(--purple); }
+.b-teal   { background: var(--teal-light); color: var(--teal); }
+.b-amber  { background: var(--amber-light); color: var(--amber); }
+.b-coral  { background: var(--coral-light); color: var(--coral); }
+
+/* ── Topic tabs ── */
+.tab-scroll {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+.tab-scroll::-webkit-scrollbar { display: none; }
+
+.tab {
+  flex-shrink: 0;
+  padding: 7px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: var(--text2);
+  transition: all 0.2s;
+  font-family: var(--font);
+  white-space: nowrap;
+}
+
+.tab:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+.tab.sel {
+  background: var(--blue);
+  color: #fff;
+  border-color: var(--blue);
+  box-shadow: 0 2px 8px rgba(26,111,212,0.25);
+}
+
+/* ── Content blocks ── */
+.cblock {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.cblock::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 3px;
+  height: 100%;
+  background: transparent;
+  transition: background 0.2s;
+}
+
+.cblock:hover {
+  border-color: var(--border2);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.cblock.visited::before {
+  background: #1D9E75;
+}
+
+.cblock.visited {
+  border-color: #C8EDDE;
+}
+
+.cblock.act {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(26,111,212,0.1), var(--shadow-md);
+}
+
+.block-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.block-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.block-info { flex: 1; min-width: 0; }
+
+.block-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.block-sub {
+  font-size: 11px;
+  color: var(--text2);
+  margin-top: 2px;
+}
+
+.block-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--bg2);
+}
+
+.block-timer {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--text3);
+}
+
+.timer-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--border2);
+  transition: background 0.3s;
+}
+
+.done-tag {
+  font-size: 11px;
+  color: #1D9E75;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+/* Visual elements */
+.vis-diagram {
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+  border: 1px solid var(--border);
+}
+
+.vis-box {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  padding: 5px 9px;
+  font-size: 11px;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.vis-arrow {
+  font-size: 12px;
+  color: var(--text3);
+}
+
+.img-mock {
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--text2);
+}
+
+/* Quiz */
+.quiz-opt {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 13px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text);
+  transition: all 0.15s;
+  font-family: var(--font);
+  background: var(--surface);
+}
+
+.quiz-opt:hover { background: var(--bg); border-color: var(--border2); }
+.quiz-opt.correct { background: #E0F5EE; border-color: #1D9E75; color: #085041; font-weight: 500; }
+.quiz-opt.wrong   { background: #FDEAEB; border-color: #E24B4A; color: #A32D2D; }
+
+/* ── Hint bar ── */
+.hint-bar {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.hint-bar .hint-icon { flex-shrink: 0; }
+
+.hint-text {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.5;
+}
+
+/* ── Primary Button ── */
+.pbtn {
+  background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.2s;
+  font-family: var(--font);
+  box-shadow: 0 3px 12px rgba(26,111,212,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.pbtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 16px rgba(26,111,212,0.4);
+}
+
+.pbtn:active { transform: translateY(0); }
+
+.sbtn {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--text);
+  transition: all 0.2s;
+  font-family: var(--font);
+  font-weight: 500;
+}
+
+.sbtn:hover { background: var(--bg); border-color: var(--border2); }
+
+/* ── Screen 2 — Analysis ── */
+.section-title {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.section-sub {
+  font-size: 13px;
+  color: var(--text2);
+  margin-bottom: 18px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 7px;
+  margin-bottom: 18px;
+}
+
+.scard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 6px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.snum {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.slbl {
+  font-size: 10px;
+  color: var(--text2);
+  margin-top: 3px;
+  font-weight: 500;
+}
+
+/* Metrics */
+.metrics-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+}
+
+.metrics-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 14px;
+}
+
+.mrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.mrow:last-child { margin-bottom: 0; }
+
+.mlbl {
+  font-size: 12px;
+  color: var(--text2);
+  width: 70px;
+  text-align: right;
+  flex-shrink: 0;
+  font-weight: 500;
+}
+
+.mbar {
+  flex: 1;
+  height: 8px;
+  background: var(--bg2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.mfill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mval {
+  font-size: 12px;
+  font-weight: 700;
+  width: 36px;
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+/* Detected style card */
+.detected-card {
+  background: linear-gradient(135deg, #F0F8F5 0%, #E8F5F0 100%);
+  border: 1.5px solid #C0E8D8;
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 16px;
+}
+
+.detected-head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 8px;
+}
+
+.detected-tag {
+  font-size: 11px;
+  font-weight: 600;
+  color: #085041;
+}
+
+.detected-style {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 5px;
+}
+
+.detected-desc {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.6;
+}
+
+/* ── Screen 3 — AI Explanation ── */
+.ai-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  box-shadow: var(--shadow);
+}
+
+.ai-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  background: linear-gradient(135deg, #1A6FD4 0%, #0E4A9A 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(26,111,212,0.25);
+}
+
+.ai-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.ai-sub {
+  font-size: 12px;
+  color: var(--text2);
+  margin-top: 1px;
+}
+
+.ai-bubble {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-right: 3px solid var(--blue);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  min-height: 80px;
+  box-shadow: var(--shadow);
+  line-height: 1.9;
+}
+
+/* Typing dots */
+.typing span {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--text3);
+  animation: blink 1.2s infinite;
+  margin: 0 2px;
+}
+.typing span:nth-child(2) { animation-delay: .2s; }
+.typing span:nth-child(3) { animation-delay: .4s; }
+@keyframes blink { 0%,80%,100%{opacity:.2} 40%{opacity:1} }
+
+/* Suggestions */
+.sugg-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+}
+
+.sugg-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text2);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.sugg-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--bg2);
+  font-size: 13px;
+  color: var(--text);
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.sugg-item:last-child { border-bottom: none; }
+.sugg-item:hover { color: var(--blue); }
+
+.sugg-arrow { color: var(--text3); flex-shrink: 0; }
+
+/* Quick actions */
+.actions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+/* Scrollable code/mono blocks */
+.mono-line {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--blue-dark);
+  margin: 2px 0;
+  line-height: 1.7;
+  direction: ltr;
+  text-align: left;
+}
+
+/* Scrum board */
+.scrum-col {
+  border-radius: var(--radius-sm);
+  padding: 10px;
+}
+
+.scrum-card {
+  background: var(--surface);
+  border-radius: 6px;
+  padding: 6px 9px;
+  font-size: 11px;
+  color: var(--text);
+  margin-bottom: 4px;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+/* Floating entry animation */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.cblock { animation: slideUp 0.25s ease both; }
+
+</style>
+</head>
+<body>
+
+<div class="app-wrap">
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="logo-wrap">
+      <div class="logo-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+      </div>
+      <div>
+        <div class="logo-name">AdaptLearn</div>
+        <div class="logo-sub">تحليل و تصميم نظم المعلومات </div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="live-pill">
+        <div class="live-dot"></div>
+        يتتبع
+      </div>
+      <div class="step-dots">
+        <div class="sdot on" id="d1"></div>
+        <div class="sdot" id="d2"></div>
+        <div class="sdot" id="d3"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══════════ SCREEN 1: COURSE ══════════ -->
+  <div class="scr on" id="s1">
+    <div class="screen-body">
+
+      <!-- Progress -->
+      <div class="prog-wrap">
+        <div class="prog-header">
+          <span class="prog-label">تقدمك في الدرس</span>
+          <span class="prog-pct" id="ptxt">0%</span>
+        </div>
+        <div class="prog-track">
+          <div class="prog-fill" id="pbar"></div>
+        </div>
+      </div>
+
+      <!-- Course header -->
+      <div class="course-header">
+        <div class="course-meta" style="margin-top:0;margin-bottom:10px;">
+          <span class="badge b-blue">الوحدة ٢</span>
+          <span style="font-size:11px;color:var(--text3);">٥ أنماط محتوى</span>
+        </div>
+        <div class="course-title">دورة حياة تطوير البرمجيات (SDLC)</div>
+        <div class="course-sub">تفاعل مع المحتوى — النظام يرصد أسلوب تعلمك تلقائياً</div>
+      </div>
+
+      <!-- Topic tabs -->
+      <div class="tab-scroll" id="topic-tabs">
+        <div class="tab sel" onclick="switchTopic('sdlc',this)">دورة SDLC</div>
+        <div class="tab" onclick="switchTopic('agile',this)">Agile</div>
+        <div class="tab" onclick="switchTopic('uml',this)">مخططات UML</div>
+        <div class="tab" onclick="switchTopic('req',this)">متطلبات النظام</div>
+      </div>
+
+      <!-- Blocks container -->
+      <div id="topic-content"></div>
+
+      <!-- Hint -->
+      <div class="hint-bar">
+        <svg class="hint-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <span class="hint-text" id="hinttxt">اضغط على أي بلوك محتوى — كلما تفاعلت أكثر، كلما دقّ التحليل</span>
+      </div>
+
+      <!-- CTA button -->
+      <div id="abtnw" style="display:none;">
+        <button class="pbtn" onclick="goAnalysis()">
+          اكتشف نمط تعلمك واحصل على شرح مخصص
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════ SCREEN 2: ANALYSIS ══════════ -->
+  <div class="scr" id="s2">
+    <div class="screen-body">
+
+      <div class="section-title">تحليل نمط تعلمك</div>
+      <div class="section-sub">بناءً على سلوكك في هذه الجلسة</div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="scard"><div class="snum" id="sv">0s</div><div class="slbl">فيديو</div></div>
+        <div class="scard"><div class="snum" id="st">0s</div><div class="slbl">نص</div></div>
+        <div class="scard"><div class="snum" id="sc">0s</div><div class="slbl">مخططات</div></div>
+        <div class="scard"><div class="snum" id="sq">0s</div><div class="slbl">تمارين</div></div>
+        <div class="scard"><div class="snum" id="sd">0s</div><div class="slbl">نقاش</div></div>
+      </div>
+
+      <!-- Metrics -->
+      <div class="metrics-card">
+        <div class="metrics-label">توزيع الاهتمام</div>
+        <div class="mrow">
+          <span class="mlbl">بصري</span>
+          <div class="mbar"><div class="mfill" id="mv" style="background:var(--blue);width:0%;"></div></div>
+          <span class="mval" id="mvv">0%</span>
+        </div>
+        <div class="mrow">
+          <span class="mlbl">لفظي</span>
+          <div class="mbar"><div class="mfill" id="ml" style="background:var(--purple);width:0%;"></div></div>
+          <span class="mval" id="mlv">0%</span>
+        </div>
+        <div class="mrow">
+          <span class="mlbl">تخطيطي</span>
+          <div class="mbar"><div class="mfill" id="mc" style="background:var(--teal);width:0%;"></div></div>
+          <span class="mval" id="mcv">0%</span>
+        </div>
+        <div class="mrow">
+          <span class="mlbl">تطبيقي</span>
+          <div class="mbar"><div class="mfill" id="mq" style="background:var(--amber);width:0%;"></div></div>
+          <span class="mval" id="mqv">0%</span>
+        </div>
+        <div class="mrow">
+          <span class="mlbl">اجتماعي</span>
+          <div class="mbar"><div class="mfill" id="md" style="background:var(--coral);width:0%;"></div></div>
+          <span class="mval" id="mdv">0%</span>
+        </div>
+      </div>
+
+      <!-- Detected style -->
+      <div class="detected-card">
+        <div class="detected-head">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0F6E56" stroke-width="2.5">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          <span class="detected-tag">نمط التعلم المكتشف</span>
+        </div>
+        <div class="detected-style" id="dstyle">—</div>
+        <div class="detected-desc" id="ddesc">—</div>
+      </div>
+
+      <button class="pbtn" onclick="goExplain()">
+        شاهد كيف يشرح الذكاء الاصطناعي بأسلوبك
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- ══════════ SCREEN 3: AI EXPLANATION ══════════ -->
+  <div class="scr" id="s3">
+    <div class="screen-body">
+
+      <!-- AI header card -->
+      <div class="ai-header">
+        <div class="ai-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+            <circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>
+          </svg>
+        </div>
+        <div style="flex:1;">
+          <div class="ai-name">شرح مخصص لك</div>
+          <div class="ai-sub" id="s3sub">بناءً على نمط تعلمك</div>
+        </div>
+        <span class="badge" id="s3badge">—</span>
+      </div>
+
+      <!-- AI bubble -->
+      <div class="ai-bubble" id="aicont">
+        <div class="typing"><span></span><span></span><span></span></div>
+      </div>
+
+      <!-- Extra content -->
+      <div id="s3extra" style="display:none;margin-top:14px;">
+
+        <div class="sugg-card">
+          <div class="sugg-label">محتوى مقترح بناءً على نمطك</div>
+          <div id="s3sugg"></div>
+        </div>
+
+        <div class="actions-grid">
+          <button class="sbtn" onclick="sendPrompt('اشرح لي الفرق بين Agile وWaterfall بنفس الأسلوب')">Agile vs Waterfall ↗</button>
+          <button class="sbtn" onclick="sendPrompt('ما هي أهم مراحل هندسة المتطلبات؟')">هندسة المتطلبات ↗</button>
+        </div>
+        <button class="sbtn" style="width:100%;margin-top:0;" onclick="resetAll()">↺ جرّب مرة أخرى بسلوك مختلف</button>
+
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /app-wrap -->
+
+<script>
+const T={video:0,text:0,diagram:0,quiz:0,discuss:0};
+const TI={};
+let vCount=0, curTopic='sdlc';
+
+const topics={
+  sdlc:{
+    label:'دورة SDLC',
+    blocks:[
+      {id:'video',type:'video',title:'شرح بالفيديو — مراحل SDLC',sub:'3 دقائق · متحرك',badge:'b-blue',badgeL:'بصري',
+       visual:`<div style="margin-top:8px;border-radius:10px;overflow:hidden;">
+  <iframe width="100%" height="180"
+    src="https://www.youtube.com/embed/8CBnAmYnwk0"
+    frameborder="0"
+    allowfullscreen>
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  </iframe>
+</div>
+         <div class="vis-diagram" style="margin-top:8px;">
+           <div class="vis-box">تخطيط</div><div class="vis-arrow">←</div>
+           <div class="vis-box">تحليل</div><div class="vis-arrow">←</div>
+           <div class="vis-box">تصميم</div><div class="vis-arrow">←</div>
+           <div class="vis-box">تطوير</div><div class="vis-arrow">←</div>
+           <div class="vis-box">اختبار</div><div class="vis-arrow">←</div>
+           <div class="vis-box" style="background:#E0F5EE;border-color:#1D9E75;color:#085041;">نشر</div>
+         </div>`},
+      {id:'text',type:'text',title:'شرح نصي مفصّل',sub:'قراءة ~7 دقائق',badge:'b-purple',badgeL:'لفظي',
+       visual:`<p style="font-size:13px;color:var(--text2);line-height:1.85;margin-top:8px;">دورة حياة تطوير البرمجيات (SDLC) هي إطار منظّم يصف مراحل إنشاء نظام برمجي من الفكرة حتى الصيانة. تبدأ بمرحلة <strong style="color:var(--text);">التخطيط</strong> لتحديد النطاق والموارد، ثم <strong style="color:var(--text);">التحليل</strong> لجمع المتطلبات، فالتصميم والتطوير والاختبار حتى النشر...</p>`},
+      {id:'diagram',type:'diagram',title:'مخططات UML',sub:'صور حقيقية',badge:'b-teal',badgeL:'تخطيطي',
+visual:`
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;">
+    
+    <div>
+      <img src="img4.jpg" style="width:100%;border-radius:10px;">
+      <p style="font-size:11px;text-align:center;">UML Overview</p>
+    </div>
+
+  </div>
+`},
+      {id:'quiz',type:'quiz',title:'تمارين تفاعلية',sub:'٤ أسئلة متنوعة',badge:'b-amber',badgeL:'تطبيقي',
+       visual:`<div style="margin-top:8px;">
+         <p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;">ما هي المرحلة التي تسبق التطوير في SDLC؟</p>
+         <div class="quiz-opt" onclick="checkQ(this,'correct')">التصميم</div>
+         <div class="quiz-opt" onclick="checkQ(this,'wrong')">الاختبار</div>
+         <div class="quiz-opt" onclick="checkQ(this,'wrong')">النشر</div>
+       </div>`},
+      {id:'discuss',type:'discuss',title:'نقاش جماعي — حالة دراسية',sub:'حالة: تطوير تطبيق بنكي',badge:'b-coral',badgeL:'اجتماعي',
+       visual:`<div style="margin-top:8px;border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+         <div style="padding:9px 12px;background:var(--bg);border-bottom:1px solid var(--border);font-size:11px;color:var(--text2);font-weight:500;">المنتدى · ٨ مشاركين نشطين</div>
+         <div style="padding:10px 12px;">
+           <div style="display:flex;gap:8px;margin-bottom:8px;align-items:flex-start;">
+             <div style="width:26px;height:26px;border-radius:50%;background:#E8F2FD;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#0E4A9A;">أح</div>
+             <div style="background:var(--bg);border-radius:0 9px 9px 9px;padding:7px 10px;font-size:12px;color:var(--text);line-height:1.6;border:1px solid var(--border);">لماذا يختار البنك نموذج Waterfall وليس Agile؟</div>
+           </div>
+           <div style="display:flex;gap:8px;align-items:flex-start;justify-content:flex-end;">
+             <div style="background:#E8F2FD;border-radius:9px 0 9px 9px;padding:7px 10px;font-size:12px;color:#0E4A9A;line-height:1.6;">بسبب متطلبات الامتثال الصارمة والوثائق الرسمية</div>
+             <div style="width:26px;height:26px;border-radius:50%;background:#EEEAFD;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#5B4FCF;">سر</div>
+           </div>
+         </div>
+       </div>`}
+    ]
+  },
+  agile:{
+    label:'Agile',
+    blocks:[
+      {id:'video',type:'video',title:'فيديو — منهجية Agile والـ Scrum',sub:'شرح عملي',badge:'b-blue',badgeL:'بصري',
+ visual:`<div style="margin-top:8px;border-radius:10px;overflow:hidden;">
+   <iframe width="100%" height="180"
+     src="https://www.youtube.com/embed/ozqQbCmtNdI"
+     frameborder="0"
+     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+     allowfullscreen>
+   </iframe>
+ </div>`
+},
+      {id:'text',type:'text',title:'القيم الأربع لـ Agile Manifesto',sub:'قراءة ~5 دقائق',badge:'b-purple',badgeL:'لفظي',
+       visual:`
+   
+    <div>
+      <img src="img2.jpg" style="width:100%;border-radius:10px;">
+      <p style="font-size:11px;text-align:center;">Use Case Diagram</p>
+    </div>
+    <hr>
+
+     <div>
+      <img src="img1.jpg" style="width:100%;border-radius:10px;">
+      <p style="font-size:11px;text-align:center;">Class Diagram</p>
+    </div>
+
+`},
+      {id:'diagram',type:'diagram',title:'مخطط Scrum Board التفاعلي',sub:'لوحة المهام المرئية',badge:'b-teal',badgeL:'تخطيطي',
+       visual:`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:8px;">
+         ${[['To Do',['تصميم DB','إعداد API'],'#FDF0D5','#C47A0D'],['In Progress',['بناء Login','كتابة Tests'],'#E8F2FD','#1A6FD4'],['Done',['تحليل المتطلبات','إعداد البيئة'],'#E0F5EE','#0D8A6E']].map(([col,items,bg,clr])=>`
+           <div class="scrum-col" style="background:${bg};">
+             <p style="font-size:11px;font-weight:700;color:${clr};margin-bottom:7px;">${col}</p>
+             ${items.map(i=>`<div class="scrum-card">${i}</div>`).join('')}
+           </div>`).join('')}
+       </div>`},
+      {id:'quiz',type:'quiz',title:'اختبار سريع — Agile',sub:'٣ أسئلة',badge:'b-amber',badgeL:'تطبيقي',
+       visual:`<div style="margin-top:8px;">
+         <p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;">ما مدة Sprint النموذجية في Scrum؟</p>
+         <div class="quiz-opt" onclick="checkQ(this,'wrong')">شهر كامل</div>
+         <div class="quiz-opt" onclick="checkQ(this,'correct')">أسبوعان</div>
+         <div class="quiz-opt" onclick="checkQ(this,'wrong')">يوم واحد</div>
+       </div>`},
+      {id:'discuss',type:'discuss',title:'نقاش — Agile في المشاريع الكبيرة',sub:'هل يصلح Agile للحكومات؟',badge:'b-coral',badgeL:'اجتماعي',
+       visual:`<div style="margin-top:8px;background:var(--bg);border-radius:10px;padding:10px 12px;border:1px solid var(--border);">
+         <p style="font-size:12px;color:var(--text2);margin-bottom:8px;font-weight:500;">آراء الطلاب:</p>
+         ${[['نعم، الأنظمة الحكومية تحتاج مرونة Agile','أح',['نعم','#E0F5EE','#085041']],['الامتثال القانوني يُصعّب تطبيقه','فا',['تحدي','#FDF0D5','#633806']]].map(([t,av,bb])=>`
+           <div style="display:flex;gap:8px;margin-bottom:8px;align-items:flex-start;">
+             <div style="width:24px;height:24px;border-radius:50%;background:#E8F2FD;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#0E4A9A;flex-shrink:0;">${av}</div>
+             <div>
+               <span style="font-size:12px;color:var(--text);">${t}</span>
+               <span class="badge" style="background:${bb[1]};color:${bb[2]};font-size:10px;margin-right:6px;">${bb[0]}</span>
+             </div>
+           </div>`).join('')}
+       </div>`}
+    ]
+  },
+  uml:{label:'UML',blocks:[
+    {id:'video',type:'video',title:'فيديو — منهجية Agile والـ Scrum',sub:'0:56 ثانية',badge:'b-blue',badgeL:'بصري',
+visual:`<div style="margin-top:8px;border-radius:10px;overflow:hidden;">
+  <iframe width="100%" height="180"
+    src="https://www.youtube.com/embed/jfGYL7_NXFI"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen>
+  </iframe>
+</div>`},
+    {id:'text',type:'text',title:'دليل مخططات UML المرجعي',sub:'قراءة ~8 دقائق',badge:'b-purple',badgeL:'لفظي',
+     visual:`<p style="font-size:13px;color:var(--text2);line-height:1.85;margin-top:8px;">UML (Unified Modeling Language) هي لغة نمذجة موحدة تستخدم لتصميم وتوثيق الأنظمة البرمجية. تنقسم مخططاتها إلى نوعين: <strong style="color:var(--text);">المخططات الهيكلية</strong> كـ Class Diagram، و<strong style="color:var(--text);">المخططات السلوكية</strong> كـ Sequence Diagram...</p>`},
+    {id:'diagram',type:'diagram',title:'مخطط الفئات — Class Diagram',sub:'نظام إدارة مكتبة',badge:'b-teal',badgeL:'تخطيطي',
+     visual:`<div>
+  <img src="img3.jpg" style="width:100%;border-radius:10px;">
+  <p style="font-size:11px;text-align:center;">Activity Diagram</p>
+</div>
+         `},
+    {id:'quiz',type:'quiz',title:'تمرين — تحديد نوع المخطط',sub:'٣ أسئلة',badge:'b-amber',badgeL:'تطبيقي',
+     visual:`<div style="margin-top:8px;">
+       <p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;">أي مخطط UML يُظهر تفاعل الكائنات عبر الزمن؟</p>
+       <div class="quiz-opt" onclick="checkQ(this,'wrong')">Class Diagram</div>
+       <div class="quiz-opt" onclick="checkQ(this,'correct')">Sequence Diagram</div>
+       <div class="quiz-opt" onclick="checkQ(this,'wrong')">Use Case Diagram</div>
+     </div>`},
+    {id:'discuss',type:'discuss',title:'نقاش — أهمية UML في 2026',sub:'هل لا تزال UML ضرورية؟',badge:'b-coral',badgeL:'اجتماعي',
+     visual:`<div style="margin-top:8px;background:var(--bg);border-radius:10px;padding:10px 12px;font-size:12px;color:var(--text2);line-height:1.75;border:1px solid var(--border);">موضوع النقاش: مع ظهور أدوات AI لتوليد الكود تلقائياً، هل لا تزال مخططات UML ذات قيمة للمطورين؟ شارك برأيك...</div>`}
+  ]},
+  req:{label:'المتطلبات',blocks:[
+    {id:'video',type:'video',title:'فيديو — هندسة المتطلبات',sub:'13 دقائق',badge:'b-blue',badgeL:'بصري',
+     visual:`<div style="margin-top:8px;border-radius:10px;overflow:hidden;">
+  <iframe width="100%" height="180"
+    src="https://www.youtube.com/embed/RELmun2OUa8"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen>
+  </iframe>
+</div>
+
+<div class="vis-diagram" style="margin-top:8px;">
+  <div class="vis-box">استخلاص</div><div class="vis-arrow">←</div>
+  <div class="vis-box">تحليل</div><div class="vis-arrow">←</div>
+  <div class="vis-box">توثيق</div><div class="vis-arrow">←</div>
+  <div class="vis-box" style="background:#E0F5EE;border-color:#1D9E75;color:#085041;">تحقق</div>
+</div>`},
+    {id:'text',type:'text',title:'الفرق بين المتطلبات الوظيفية وغير الوظيفية',sub:'قراءة ~6 دقائق',badge:'b-purple',badgeL:'لفظي',
+     visual:`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">
+       <div style="background:#E8F2FD;border-radius:9px;padding:11px;border:1px solid #B5D4F4;"><p style="font-size:12px;font-weight:700;color:#0E4A9A;margin-bottom:6px;">وظيفية (Functional)</p><p style="font-size:11px;color:#185FA5;line-height:1.7;">تصف ما يجب أن يفعله النظام. مثال: "يجب أن يتمكن المستخدم من تسجيل الدخول بالبريد الإلكتروني"</p></div>
+       <div style="background:#EEEAFD;border-radius:9px;padding:11px;border:1px solid #CECBF6;"><p style="font-size:12px;font-weight:700;color:#3C3489;margin-bottom:6px;">غير وظيفية (NFR)</p><p style="font-size:11px;color:#5B4FCF;line-height:1.7;">تصف كيف يجب أن يعمل النظام. مثال: "يجب أن يستجيب في أقل من ٢ ثانية"</p></div>
+     </div>`},
+    {id:'diagram',type:'diagram',title:'نموذج User Story Map',sub:'رسم بصري للمتطلبات',badge:'b-teal',badgeL:'تخطيطي',
+     visual:`{id:'diagram',type:'diagram',title:'مخططات UML',sub:'صور حقيقية',badge:'b-teal',badgeL:'تخطيطي',    
+    <div>
+      <img src="img1.jpg" style="width:100%;border-radius:10px;">
+      <p style="font-size:11px;text-align:center;">Class Diagram</p>
+    </div>
+
+    <div>
+      <img src="img2.jpg" style="width:100%;border-radius:10px;">
+      <p style="font-size:11px;text-align:center;">Use Case Diagram</p>
+    </div>
+
+    <div>
+      <img src="img3.jpg" style="width:100%;border-radius:10px;">
+      <p style="font-size:11px;text-align:center;">Activity Diagram</p>
+    </div>
+
+    <div>
+      <img src="img4.jpg" style="width:100%;border-radius:10px;">
+      <p style="font-size:11px;text-align:center;">UML Overview</p>
+    </div>`},
+    {id:'quiz',type:'quiz',title:'اختبار — تصنيف المتطلبات',sub:'٤ أسئلة',badge:'b-amber',badgeL:'تطبيقي',
+     visual:`<div style="margin-top:8px;">
+       <p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;">"يجب أن يدعم النظام 10,000 مستخدم متزامن" — ما نوع هذا المتطلب؟</p>
+       <div class="quiz-opt" onclick="checkQ(this,'wrong')">متطلب وظيفي</div>
+       <div class="quiz-opt" onclick="checkQ(this,'correct')">متطلب غير وظيفي (أداء)</div>
+       <div class="quiz-opt" onclick="checkQ(this,'wrong')">متطلب واجهة مستخدم</div>
+     </div>`},
+    {id:'discuss',type:'discuss',title:'ورشة — جمع المتطلبات من العميل',sub:'تمثيل أدوار',badge:'b-coral',badgeL:'اجتماعي',
+     visual:`<div style="margin-top:8px;background:var(--bg);border-radius:10px;padding:11px 13px;border:1px solid var(--border);">
+       <p style="font-size:12px;color:var(--text2);margin-bottom:6px;font-weight:500;">سيناريو الورشة:</p>
+       <p style="font-size:12px;color:var(--text);line-height:1.75;">أنت محلل نظم، والعميل يريد "نظام متجر إلكتروني سهل". ما الأسئلة التي ستطرحها لاستخلاص المتطلبات؟</p>
+     </div>`}
+  ]}
+};
+
+const styleMap={video:{l:'بصري',c:'#1A6FD4'},text:{l:'لفظي',c:'#5B4FCF'},diagram:{l:'تخطيطي',c:'#0D8A6E'},quiz:{l:'تطبيقي',c:'#C47A0D'},discuss:{l:'اجتماعي',c:'#C04A2A'}};
+const descs={video:'تفضّل الصور والمخططات والفيديو لفهم المفاهيم.',text:'تفضّل الشرح المكتوب التفصيلي والتحليل المعمّق.',diagram:'تفضّل النمذجة البصرية والمخططات الهيكلية.',quiz:'تتعلم بالتطبيق العملي وحل المسائل مباشرة.',discuss:'تستفيد من النقاش الجماعي وتبادل الآراء.'};
+
+const expls={
+  video:{badge:'b-blue',blbl:'متعلم بصري',lines:['بما أنك متعلم بصري، إليك SDLC كما تحبّ — بالصور والمخططات:','',
+    'دورة الحياة كاملة:','',
+    '① التخطيط  ←  ② تحليل المتطلبات  ←  ③ التصميم','','④ التطوير  ←  ⑤ الاختبار  ←  ⑥ النشر  ←  ⑦ الصيانة','',
+    'في كل مرحلة:','المدخلات ← العمليات ← المخرجات','',
+    'مثال مرئي — مرحلة التصميم:','متطلبات ← معماريات ← مخططات UML ← نماذج أولية']},
+  text:{badge:'b-purple',blbl:'متعلم لفظي',lines:['بما أنك متعلم لفظي، إليك شرح مفصّل بالكلمات:','',
+    'SDLC هو إطار منهجي يضمن بناء البرمجيات بجودة عالية وتكلفة مضبوطة.',
+    'يتكون من سبع مراحل مترابطة:','',
+    '١. التخطيط: تحديد نطاق المشروع والجدول الزمني والميزانية.',
+    '٢. تحليل المتطلبات: جمع وتوثيق احتياجات أصحاب المصلحة.',
+    '٣. التصميم: تحديد معمارية النظام وتصميم قاعدة البيانات.',
+    '٤. التطوير: كتابة الكود وبناء الوحدات البرمجية.',
+    '٥. الاختبار: التحقق من خلو النظام من الأخطاء.',
+    '٦. النشر: توزيع النظام في البيئة الإنتاجية.',
+    '٧. الصيانة: إصلاح الأخطاء وإضافة التحسينات.']},
+  diagram:{badge:'b-teal',blbl:'متعلم تخطيطي',lines:['بما أنك تفضّل المخططات، إليك SDLC بالنمذجة:','',
+    'مخطط دورة SDLC:','',
+    '┌─ التخطيط ─┐','│  نطاق، وقت، ميزانية  │','└──────────┘','        ↓','┌─ تحليل المتطلبات ─┐','│  وظيفية + غير وظيفية │','└─────────────────┘','        ↓','┌─ التصميم ─┐','│  معمارية + UML + DB  │','└──────────┘','        ↓','[ التطوير ] → [ اختبار ] → [ نشر ] → [ صيانة ]']},
+  quiz:{badge:'b-amber',blbl:'متعلم تطبيقي',lines:['بما أنك تتعلم بالتطبيق، إليك SDLC عبر التمارين:','',
+    'تمرين ١: رتّب المراحل الصحيح:','[ اختبار / تصميم / تخطيط / تطوير / تحليل ]','الإجابة: تخطيط ← تحليل ← تصميم ← تطوير ← اختبار','',
+    'تمرين ٢: في أي مرحلة يُكتب كود Python؟','الإجابة: مرحلة التطوير (Development)','',
+    'تمرين ٣: ما الفرق بين Verification وValidation?','Verification: هل بنينا النظام بشكل صحيح?','Validation: هل بنينا النظام الصحيح؟']},
+  discuss:{badge:'b-coral',blbl:'متعلم اجتماعي',lines:['بما أنك تتعلم بالنقاش، إليك SDLC بالحالات الدراسية:','',
+    'حالة دراسية — نظام بنكي:','',
+    'البنك اختار نموذج Waterfall لأن:','• متطلبات الأمان صارمة ومحددة مسبقاً','• الامتثال القانوني يتطلب توثيقاً شاملاً','• التغيير في المتطلبات نادر جداً','',
+    'للنقاش: هل كان Agile خياراً أفضل؟','الحجة المؤيدة: مرونة في التحسين المستمر','الحجة المعارضة: صعوبة الامتثال مع Sprint القصيرة']}
+};
+
+function getBg(badge){return{'b-blue':'#E8F2FD','b-purple':'#EEEAFD','b-teal':'#E0F5EE','b-amber':'#FDF0D5','b-coral':'#FDEAE3'}[badge]||'#eee';}
+function getStroke(badge){return{'b-blue':'#1A6FD4','b-purple':'#5B4FCF','b-teal':'#0D8A6E','b-amber':'#C47A0D','b-coral':'#C04A2A'}[badge]||'#333';}
+
+function getIcon(type){
+  const s=getStroke({video:'b-blue',text:'b-purple',diagram:'b-teal',quiz:'b-amber',discuss:'b-coral'}[type]||'b-blue');
+  const icons={
+    video:`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="${s}" stroke-width="2.2"><polygon points="5 3 19 12 5 21 5 3"/></svg>`,
+    text:`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="${s}" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>`,
+    diagram:`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="${s}" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>`,
+    quiz:`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="${s}" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+    discuss:`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="${s}" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`
+  };
+  return icons[type]||'';
+}
+
+function renderBlocks(){
+  const blocks=topics[curTopic].blocks;
+  const cont=document.getElementById('topic-content');
+  cont.innerHTML=blocks.map((b,idx)=>`
+    <div class="cblock ${T[b.type]>0?'visited':''}" id="blk-${b.id}" onclick="visitB('${b.type}','${b.id}',this)" style="animation-delay:${idx*0.05}s">
+      <div class="block-head">
+        <div class="block-icon" style="background:${getBg(b.badge)};">
+          ${getIcon(b.type)}
+        </div>
+        <div class="block-info">
+          <div class="block-title">${b.title}</div>
+          <div class="block-sub">${b.sub}</div>
+        </div>
+        <span class="badge ${b.badge}" style="flex-shrink:0;">${b.badgeL}</span>
+      </div>
+      ${b.visual}
+      <div class="block-foot">
+        <div class="block-timer">
+          <div class="timer-dot" id="dot-${b.id}" style="${T[b.type]>0?'background:#1D9E75;':''}"></div>
+          <span id="tdisp-${b.id}">${T[b.type]>0?T[b.type]+'ث':'اضغط للتفاعل'}</span>
+        </div>
+        ${T[b.type]>0?`<span class="done-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>تم</span>`:''}
+      </div>
+    </div>`).join('');
+}
+
+function visitB(type,id,el){
+  Object.values(TI).forEach(clearInterval);
+  Object.keys(TI).forEach(k=>delete TI[k]);
+  document.querySelectorAll('.cblock').forEach(b=>b.classList.remove('act'));
+  el.classList.add('act');
+  if(!el.classList.contains('visited')){el.classList.add('visited');vCount++;updateProg();}
+  TI[type]=setInterval(()=>{
+    T[type]++;
+    const d=document.getElementById('dot-'+id);
+    const td=document.getElementById('tdisp-'+id);
+    if(d)d.style.background='#1D9E75';
+    if(td)td.textContent=T[type]+'ث';
+  },1000);
+  if(vCount>=1){
+    document.getElementById('abtnw').style.display='block';
+    document.getElementById('hinttxt').textContent='رائع! يمكنك الانتقال للتحليل أو الاستمرار في التفاعل لتحسين الدقة';
+  }
+}
+
+function checkQ(el,res){
+  document.querySelectorAll('.quiz-opt').forEach(o=>{o.onclick=null;});
+  el.classList.add(res);
+  if(res==='correct') el.textContent='✓ '+el.textContent+' — إجابة صحيحة!';
+  else el.textContent='✗ '+el.textContent+' — حاول مرة أخرى';
+  T.quiz+=5;
+}
+
+function updateProg(){
+  const p=Math.min(100,Math.round((vCount/5)*100));
+  document.getElementById('pbar').style.width=p+'%';
+  document.getElementById('ptxt').textContent=p+'%';
+}
+
+function getDom(){return Object.keys(T).reduce((a,b)=>T[a]>=T[b]?a:b);}
+
+function setDots(n){
+  [1,2,3].forEach(i=>{const d=document.getElementById('d'+i);if(d)d.classList.toggle('on',i===n);});
+}
+
+function switchTopic(t,el){
+  curTopic=t;
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('sel'));
+  el.classList.add('sel');
+  renderBlocks();
+}
+
+function goAnalysis(){
+  Object.values(TI).forEach(clearInterval);
+  document.getElementById('s1').classList.remove('on');
+  document.getElementById('s2').classList.add('on');
+  setDots(2);
+  document.getElementById('sv').textContent=T.video+'s';
+  document.getElementById('st').textContent=T.text+'s';
+  document.getElementById('sc').textContent=T.diagram+'s';
+  document.getElementById('sq').textContent=T.quiz+'s';
+  document.getElementById('sd').textContent=T.discuss+'s';
+  const tot=Math.max(1,Object.values(T).reduce((a,b)=>a+b,0));
+  setTimeout(()=>{
+    [['mv','mvv','video'],['ml','mlv','text'],['mc','mcv','diagram'],['mq','mqv','quiz'],['md','mdv','discuss']].forEach(([bid,vid,key])=>{
+      const p=Math.round((T[key]/tot)*100);
+      document.getElementById(bid).style.width=p+'%';
+      document.getElementById(vid).textContent=p+'%';
+    });
+  },120);
+  const dom=getDom();
+  document.getElementById('dstyle').textContent=styleMap[dom].l;
+  document.getElementById('ddesc').textContent=descs[dom];
+}
+
+function goExplain(){
+  document.getElementById('s2').classList.remove('on');
+  document.getElementById('s3').classList.add('on');
+  setDots(3);
+  const dom=getDom();
+  const exp=expls[dom];
+  document.getElementById('s3sub').textContent='نمط: '+styleMap[dom].l;
+  const badge=document.getElementById('s3badge');
+  badge.textContent=exp.blbl; badge.className='badge '+exp.badge;
+  const cont=document.getElementById('aicont');
+  cont.innerHTML='<div class="typing"><span></span><span></span><span></span></div>';
+  let i=0,html='';
+  setTimeout(()=>{
+    cont.innerHTML='';
+    const iv=setInterval(()=>{
+      if(i>=exp.lines.length){
+        clearInterval(iv);
+        document.getElementById('s3extra').style.display='block';
+        document.getElementById('s3sugg').innerHTML=[
+          'مراجعة '+topics[curTopic].label+' بمخططات تفاعلية',
+          'اختبار شامل على الوحدة ٢',
+          'مشروع تطبيقي: صمّم SDLC لتطبيق موبايل'
+        ].map(s=>`<div class="sugg-item">
+          <svg class="sugg-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          <span>${s}</span>
+        </div>`).join('');
+        return;
+      }
+      const line=exp.lines[i];
+      if(line==='') html+='<br>';
+      else if(line.match(/^[①②③④⑤⑥⑦]|^┌|^└|^│|^\[|^•/))
+        html+=`<p class="mono-line">${line}</p>`;
+      else if(line.match(/^[١٢٣٤٥٦٧]\./))
+        html+=`<p style="font-size:13px;font-weight:600;color:var(--text);margin:5px 0;line-height:1.7;">${line}</p>`;
+      else
+        html+=`<p style="font-size:13px;line-height:1.9;color:var(--text);margin:2px 0;">${line}</p>`;
+      cont.innerHTML=html; i++;
+    },65);
+  },1200);
+}
+
+function resetAll(){
+  Object.assign(T,{video:0,text:0,diagram:0,quiz:0,discuss:0});
+  Object.values(TI).forEach(clearInterval);
+  Object.keys(TI).forEach(k=>delete TI[k]);
+  vCount=0;
+  document.getElementById('abtnw').style.display='none';
+  document.getElementById('hinttxt').textContent='اضغط على أي بلوك محتوى — كلما تفاعلت أكثر، كلما دقّ التحليل';
+  document.getElementById('pbar').style.width='0%';
+  document.getElementById('ptxt').textContent='0%';
+  document.getElementById('s3extra').style.display='none';
+  document.getElementById('aicont').innerHTML='<div class="typing"><span></span><span></span><span></span></div>';
+  ['s2','s3'].forEach(id=>document.getElementById(id).classList.remove('on'));
+  document.getElementById('s1').classList.add('on');
+  setDots(1);
+  renderBlocks();
+}
+
+renderBlocks();
+</script>
+
+</body>
+</html>
