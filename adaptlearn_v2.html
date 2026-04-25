@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AdaptLearn — Systems Analysis & Design</title>
+<title>AdaptLearn</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+
 <style>
 :root {
   --blue: #1A6FD4;
@@ -230,6 +231,8 @@ body {
 .timer-dot   { width: 6px; height: 6px; border-radius: 50%; background: var(--border2); transition: background 0.3s; }
 .done-tag    { font-size: 11px; color: #1D9E75; font-weight: 600; display: flex; align-items: center; gap: 3px; }
 
+
+
 /* Visual helpers */
 .vis-diagram {
   background: var(--bg); border-radius: var(--radius-sm);
@@ -347,6 +350,7 @@ body {
         <div class="logo-sub" id="hdr-sub">تحليل و تصميم نظم المعلومات</div>
       </div>
     </div>
+    
     <div class="header-right">
       <button class="lang-btn" onclick="toggleLang()" id="lang-btn">
         <span class="lang-flag">🌐</span>
@@ -362,6 +366,7 @@ body {
         <div class="sdot" id="d3"></div>
       </div>
     </div>
+    
   </header>
 
   <!-- ══ SCREEN 1 ══ -->
@@ -477,10 +482,7 @@ body {
           <div class="sugg-label" id="sugg-lbl">محتوى مقترح بناءً على نمطك</div>
           <div id="s3sugg"></div>
         </div>
-        <div class="actions-grid">
-          <button class="sbtn" id="qa-btn1" onclick="doQuickAction(0)"></button>
-          <button class="sbtn" id="qa-btn2" onclick="doQuickAction(1)"></button>
-        </div>
+        
         <button class="sbtn" style="width:100%;margin-top:0;" onclick="resetAll()" id="reset-btn">↺ جرّب مرة أخرى بسلوك مختلف</button>
       </div>
 
