@@ -331,9 +331,197 @@ body {
 
 @keyframes slideUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 
+/* ── Welcome Popup ── */
+.popup-overlay {
+  position: fixed; inset: 0; background: rgba(26,35,64,0.45);
+  z-index: 200; display: flex; align-items: center; justify-content: center;
+  animation: fadeIn 0.25s ease;
+  backdrop-filter: blur(3px);
+}
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+.popup-box {
+  background: var(--surface); border-radius: 18px; padding: 28px 24px;
+  max-width: 360px; width: calc(100% - 36px);
+  box-shadow: 0 8px 40px rgba(26,47,90,0.18);
+  animation: popIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  text-align: center;
+}
+@keyframes popIn { from{opacity:0;transform:scale(0.88)} to{opacity:1;transform:scale(1)} }
+.popup-icon-wrap {
+  width: 60px; height: 60px; border-radius: 16px;
+  background: linear-gradient(135deg,#1A6FD4,#0E4A9A);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px; box-shadow: 0 4px 16px rgba(26,111,212,0.3);
+}
+.popup-title { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.popup-desc { font-size: 13px; color: var(--text2); line-height: 1.75; margin-bottom: 18px; }
+.popup-steps {
+  display: flex; gap: 8px; margin-bottom: 20px; justify-content: center;
+}
+.popup-step {
+  background: var(--bg); border-radius: 10px; padding: 8px 11px;
+  flex: 1; border: 1px solid var(--border);
+}
+.popup-step-icon { font-size: 18px; margin-bottom: 4px; }
+.popup-step-lbl  { font-size: 11px; color: var(--text2); font-weight: 500; }
+.popup-start-btn {
+  background: linear-gradient(135deg,#1A6FD4,#0E4A9A);
+  color: #fff; border: none; border-radius: 11px; padding: 13px 24px;
+  font-size: 14px; font-weight: 700; cursor: pointer; width: 100%;
+  font-family: var(--font); box-shadow: 0 3px 14px rgba(26,111,212,0.35);
+  transition: all 0.2s;
+}
+.popup-start-btn:hover { transform: translateY(-1px); box-shadow: 0 5px 18px rgba(26,111,212,0.45); }
+
+/* ── Gamification Bar ── */
+.game-bar {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 10px 14px;
+  margin-bottom: 12px; display: flex; align-items: center;
+  gap: 12px; box-shadow: var(--shadow); flex-wrap: wrap;
+}
+.game-stat {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 600; color: var(--text);
+}
+.game-stat-icon { font-size: 14px; }
+.streak-fire { color: #E85D04; }
+.points-star { color: #C47A0D; }
+.badge-trophy { color: #5B4FCF; }
+
+/* ── Badge popup ── */
+.badge-toast {
+  position: fixed; bottom: 24px; right: 50%; transform: translateX(50%);
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: 14px; padding: 12px 18px; box-shadow: var(--shadow-md);
+  display: flex; align-items: center; gap: 10px;
+  z-index: 300; animation: toastIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  min-width: 240px;
+}
+@keyframes toastIn { from{opacity:0;transform:translateX(50%) translateY(20px)} to{opacity:1;transform:translateX(50%) translateY(0)} }
+.badge-toast-icon { font-size: 26px; }
+.badge-toast-txt { flex: 1; }
+.badge-toast-title { font-size: 13px; font-weight: 700; color: var(--text); }
+.badge-toast-sub   { font-size: 11px; color: var(--text2); margin-top: 2px; }
+
+/* ── Guided start highlight ── */
+.guided-pulse { animation: guidedPulse 2s ease infinite; }
+@keyframes guidedPulse {
+  0%,100%{ box-shadow: 0 0 0 0 rgba(26,111,212,0); }
+  50%    { box-shadow: 0 0 0 5px rgba(26,111,212,0.15); }
+}
+
+/* ── Min interaction warning ── */
+.min-hint {
+  background: #FDF0D5; border: 1px solid #E8C970; border-radius: var(--radius-sm);
+  padding: 9px 13px; font-size: 12px; color: #633806; margin-top: 8px;
+  display: none; align-items: center; gap: 7px;
+}
+
+/* ── File upload section ── */
+.upload-section {
+  background: var(--surface); border: 1.5px dashed var(--border2);
+  border-radius: var(--radius); padding: 20px 18px; margin-bottom: 14px;
+  text-align: center; cursor: pointer; transition: all 0.2s;
+  position: relative; overflow: hidden;
+}
+.upload-section:hover { border-color: var(--blue); background: var(--blue-light); }
+.upload-section.drag-over { border-color: var(--blue); background: var(--blue-light); transform: scale(1.01); }
+.upload-icon { font-size: 28px; margin-bottom: 8px; }
+.upload-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.upload-sub { font-size: 12px; color: var(--text2); }
+.upload-input { display: none; }
+.upload-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--blue); color: #fff; border: none; border-radius: var(--radius-sm);
+  padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer;
+  margin-top: 10px; font-family: var(--font); transition: all 0.2s;
+}
+.upload-btn:hover { background: var(--blue-dark); }
+
+.file-result-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 14px 16px; margin-bottom: 12px;
+  box-shadow: var(--shadow); animation: slideUp 0.3s ease;
+}
+.file-result-header {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+  padding-bottom: 10px; border-bottom: 1px solid var(--bg2);
+}
+.file-result-icon {
+  width: 36px; height: 36px; border-radius: 9px;
+  background: var(--blue-light); display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.file-result-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.file-result-meta { font-size: 11px; color: var(--text2); margin-top: 2px; }
+.file-result-item {
+  display: flex; align-items: center; gap: 8px; padding: 7px 0;
+  border-bottom: 1px solid var(--bg2); font-size: 12px; color: var(--text);
+}
+.file-result-item:last-child { border-bottom: none; }
+.file-result-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--blue); flex-shrink: 0;
+}
+.analyzing-anim {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--text2); padding: 10px 0;
+}
+
+/* ── Web Dev Course tab ── */
+.course-switcher {
+  display: flex; gap: 6px; padding: 14px 18px 0; margin-bottom: 0;
+}
+.course-switch-btn {
+  flex: 1; padding: 8px 12px; border-radius: 10px; font-size: 12px;
+  font-weight: 600; cursor: pointer; border: 1.5px solid var(--border);
+  background: var(--surface); color: var(--text2); transition: all 0.2s;
+  font-family: var(--font); text-align: center;
+}
+.course-switch-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); box-shadow: 0 2px 8px rgba(26,111,212,0.25); }
+.course-switch-btn:hover:not(.active) { border-color: var(--blue); color: var(--blue); }
+
 </style>
 </head>
 <body>
+
+<!-- ══ WELCOME POPUP ══ -->
+<div class="popup-overlay" id="welcome-popup">
+  <div class="popup-box">
+    <div class="popup-icon-wrap">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.3">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+      </svg>
+    </div>
+    <div class="popup-title" id="popup-title">كيف تتعلم؟</div>
+    <div class="popup-desc" id="popup-desc">AdaptLearn يكتشف أسلوبك بدون اختبارات — فقط تفاعل مع المحتوى وسنحلّل طريقة تعلمك تلقائياً</div>
+    <div class="popup-steps">
+      <div class="popup-step">
+        <div class="popup-step-icon">👆</div>
+        <div class="popup-step-lbl" id="ps1">تفاعل مع البلوكات</div>
+      </div>
+      <div class="popup-step">
+        <div class="popup-step-icon">📊</div>
+        <div class="popup-step-lbl" id="ps2">اكسب نقاط وبادجات</div>
+      </div>
+      <div class="popup-step">
+        <div class="popup-step-icon">🧠</div>
+        <div class="popup-step-lbl" id="ps3">احصل على شرح مخصص</div>
+      </div>
+    </div>
+    <button class="popup-start-btn" id="popup-start-btn" onclick="closePopup()">ابدأ التحليل 🚀</button>
+  </div>
+</div>
+
+<!-- ══ BADGE TOAST ══ -->
+<div class="badge-toast" id="badge-toast" style="display:none;">
+  <div class="badge-toast-icon" id="toast-icon">🏅</div>
+  <div class="badge-toast-txt">
+    <div class="badge-toast-title" id="toast-title">—</div>
+    <div class="badge-toast-sub" id="toast-sub">—</div>
+  </div>
+</div>
 
 <div class="app-wrap">
 
@@ -369,9 +557,68 @@ body {
     
   </header>
 
-  <!-- ══ SCREEN 1 ══ -->
+  <!-- ══ SCREEN 0 — UNIVERSAL UPLOAD ══ -->
+  <div class="scr on" id="s0">
+    <div class="screen-body" style="padding-top:22px;">
+
+      <div style="text-align:center;margin-bottom:22px;">
+        <div style="font-size:22px;font-weight:800;color:var(--text);margin-bottom:6px;">ارفع ملف مادتك</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.7;">AdaptLearn يحلّل الملف ويبني لك درساً تفاعلياً مخصصاً<br>يدعم جميع المواد الدراسية</div>
+      </div>
+
+      <div class="upload-section" id="s0-upload-zone" style="padding:30px 20px;"
+           onclick="document.getElementById('s0-file-input').click()"
+           ondragover="event.preventDefault();this.classList.add('drag-over')"
+           ondragleave="this.classList.remove('drag-over')"
+           ondrop="handleDropS0(event)">
+        <input type="file" id="s0-file-input" class="upload-input"
+               accept=".pdf,.png,.jpg,.jpeg,.docx,.pptx,.html,.css,.js,.txt,.md"
+               onchange="handleFileUploadS0(event)">
+        <div style="font-size:38px;margin-bottom:10px;">📂</div>
+        <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:5px;">اسحب الملف هنا أو اضغط للاختيار</div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:14px;">PDF · صور · DOCX · PPTX · وأكثر</div>
+        <button class="upload-btn" style="margin-top:0;" onclick="event.stopPropagation();document.getElementById('s0-file-input').click()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          اختر ملفاً
+        </button>
+      </div>
+
+      <div id="s0-result-wrap"></div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;justify-content:center;">
+        <div style="font-size:12px;color:var(--text3);width:100%;text-align:center;margin-bottom:4px;">أو جرّب مادة جاهزة:</div>
+        <button class="sbtn" style="font-size:12px;padding:7px 14px;" onclick="loadPreset('sa')">📐 تحليل وتصميم نظم</button>
+        <button class="sbtn" style="font-size:12px;padding:7px 14px;" onclick="loadPreset('wd')">🌐 تطوير الويب</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ SCREEN 1 — Systems Analysis ══ -->
   <div class="scr on" id="s1">
     <div class="screen-body">
+
+      <!-- Gamification Bar -->
+      <div class="game-bar">
+        <div class="game-stat">
+          <span class="game-stat-icon streak-fire">🔥</span>
+          <span id="streak-val">0</span>
+          <span style="color:var(--text2);font-weight:400;font-size:11px;" id="streak-lbl">streak</span>
+        </div>
+        <div class="game-stat">
+          <span class="game-stat-icon points-star">⭐</span>
+          <span id="points-val">0</span>
+          <span style="color:var(--text2);font-weight:400;font-size:11px;" id="points-lbl">نقطة</span>
+        </div>
+        <div class="game-stat">
+          <span class="game-stat-icon badge-trophy">🏅</span>
+          <span id="badges-val">0</span>
+          <span style="color:var(--text2);font-weight:400;font-size:11px;" id="badges-lbl">badge</span>
+        </div>
+        <div style="flex:1;text-align:end;">
+          <span style="font-size:11px;color:var(--text3);" id="interact-hint-txt">اختر 2–3 عناصر على الأقل</span>
+        </div>
+      </div>
 
       <div class="prog-wrap">
         <div class="prog-header">
@@ -380,6 +627,15 @@ body {
         </div>
         <div class="prog-track"><div class="prog-fill" id="pbar"></div></div>
       </div>
+
+      <!-- File uploaded indicator -->
+      <div id="s1-file-banner" style="display:none;background:var(--surface);border:1px solid #C0E8D8;border-radius:var(--radius-sm);padding:9px 13px;margin-bottom:12px;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow);">
+        <span style="font-size:14px;">📎</span>
+        <span id="s1-file-name" style="font-size:12px;font-weight:600;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+        <span class="badge b-teal" style="flex-shrink:0;">✓</span>
+        <button class="sbtn" style="padding:4px 10px;font-size:11px;" onclick="goToUpload()">تغيير</button>
+      </div>
+      <div id="file-result-wrap"></div>
 
       <div class="course-header">
         <div class="course-meta">
@@ -400,10 +656,92 @@ body {
         <span class="hint-text" id="hinttxt">اضغط على أي بلوك محتوى — كلما تفاعلت أكثر، كلما دقّ التحليل</span>
       </div>
 
+      <!-- Min interaction warning -->
+      <div class="min-hint" id="min-hint">
+        ⚠️ <span id="min-hint-txt">تفاعل مع عنصرين على الأقل للحصول على تحليل دقيق</span>
+      </div>
 
       <div id="abtnw" style="display:none;">
-        <button class="pbtn" onclick="goAnalysis()">
+        <button class="pbtn" onclick="tryGoAnalysis()">
           <span id="cta1-txt">اكتشف نمط تعلمك واحصل على شرح مخصص</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ SCREEN 1-WD — Web Dev Course ══ -->
+  <div class="scr" id="s1wd">
+    <div class="screen-body">
+
+      <!-- Gamification Bar (shared display) -->
+      <div class="game-bar">
+        <div class="game-stat">
+          <span class="game-stat-icon streak-fire">🔥</span>
+          <span id="wd-streak-val">0</span>
+          <span style="color:var(--text2);font-weight:400;font-size:11px;">streak</span>
+        </div>
+        <div class="game-stat">
+          <span class="game-stat-icon points-star">⭐</span>
+          <span id="wd-points-val">0</span>
+          <span style="color:var(--text2);font-weight:400;font-size:11px;" id="wd-points-lbl">نقطة</span>
+        </div>
+        <div class="game-stat">
+          <span class="game-stat-icon badge-trophy">🏅</span>
+          <span id="wd-badges-val">0</span>
+          <span style="color:var(--text2);font-weight:400;font-size:11px;">badge</span>
+        </div>
+        <div style="flex:1;text-align:end;">
+          <span style="font-size:11px;color:var(--text3);" id="wd-interact-hint">اختر 2–3 عناصر على الأقل</span>
+        </div>
+      </div>
+
+      <div class="prog-wrap">
+        <div class="prog-header">
+          <span class="prog-label" id="wd-prog-lbl">تقدمك في الدرس</span>
+          <span class="prog-pct" id="wd-ptxt">0%</span>
+        </div>
+        <div class="prog-track"><div class="prog-fill" id="wd-pbar"></div></div>
+      </div>
+
+      <!-- File uploaded indicator WD -->
+      <div id="s1wd-file-banner" style="background:var(--surface);border:1px solid #C0E8D8;border-radius:var(--radius-sm);padding:9px 13px;margin-bottom:12px;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow);">
+        <span style="font-size:14px;">🌐</span>
+        <span id="s1wd-file-name" style="font-size:12px;font-weight:600;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+        <span class="badge b-teal" style="flex-shrink:0;">✓</span>
+        <button class="sbtn" style="padding:4px 10px;font-size:11px;" onclick="goToUpload()">تغيير</button>
+      </div>
+      <div id="wd-file-result-wrap"></div>
+
+      <div class="course-header">
+        <div class="course-meta">
+          <span class="badge b-purple">الوحدة ١</span>
+          <span style="font-size:11px;color:var(--text3);">٥ أنماط محتوى</span>
+        </div>
+        <div class="course-title" id="wd-course-title">أساسيات تطوير الويب</div>
+        <div class="course-sub" id="wd-course-sub">تفاعل مع المحتوى — النظام يرصد أسلوب تعلمك تلقائياً</div>
+      </div>
+
+      <div class="tab-scroll" id="wd-topic-tabs"></div>
+      <div id="wd-topic-content"></div>
+
+      <div class="hint-bar">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <span class="hint-text" id="wd-hinttxt">اضغط على أي بلوك محتوى — كلما تفاعلت أكثر، كلما دقّ التحليل</span>
+      </div>
+
+      <div class="min-hint" id="wd-min-hint">
+        ⚠️ <span>تفاعل مع عنصرين على الأقل للحصول على تحليل دقيق</span>
+      </div>
+
+      <div id="wd-abtnw" style="display:none;">
+        <button class="pbtn" onclick="tryGoAnalysisWD()">
+          <span>اكتشف نمط تعلمك واحصل على شرح مخصص</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <polyline points="15 18 9 12 15 6"/>
           </svg>
@@ -484,6 +822,80 @@ body {
         </div>
         
         <button class="sbtn" style="width:100%;margin-top:0;" onclick="resetAll()" id="reset-btn">↺ جرّب مرة أخرى بسلوك مختلف</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ SCREEN 1-AI — Dynamic AI Course ══ -->
+  <div class="scr" id="s1ai">
+    <div class="screen-body">
+
+      <div class="game-bar">
+        <div class="game-stat">
+          <span class="game-stat-icon streak-fire">🔥</span>
+          <span id="ai-streak-val">0</span>
+          <span style="color:var(--text2);font-weight:400;font-size:11px;">streak</span>
+        </div>
+        <div class="game-stat">
+          <span class="game-stat-icon points-star">⭐</span>
+          <span id="ai-points-val">0</span>
+          <span style="color:var(--text2);font-weight:400;font-size:11px;">نقطة</span>
+        </div>
+        <div class="game-stat">
+          <span class="game-stat-icon badge-trophy">🏅</span>
+          <span id="ai-badges-val">0</span>
+          <span style="color:var(--text2);font-weight:400;font-size:11px;">badge</span>
+        </div>
+        <div style="flex:1;text-align:end;">
+          <span style="font-size:11px;color:var(--text3);" id="ai-interact-hint">اختر 2–3 عناصر على الأقل</span>
+        </div>
+      </div>
+
+      <div class="prog-wrap">
+        <div class="prog-header">
+          <span class="prog-label">تقدمك في الدرس</span>
+          <span class="prog-pct" id="ai-ptxt">0%</span>
+        </div>
+        <div class="prog-track"><div class="prog-fill" id="ai-pbar"></div></div>
+      </div>
+
+      <!-- File banner -->
+      <div id="s1ai-file-banner" style="background:var(--surface);border:1px solid #C0E8D8;border-radius:var(--radius-sm);padding:9px 13px;margin-bottom:12px;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow);">
+        <span style="font-size:14px;">📎</span>
+        <span id="s1ai-file-name" style="font-size:12px;font-weight:600;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+        <span class="badge b-teal" style="flex-shrink:0;">✓ تم التحليل</span>
+        <button class="sbtn" style="padding:4px 10px;font-size:11px;" onclick="goToUpload()">تغيير</button>
+      </div>
+
+      <div class="course-header">
+        <div class="course-meta">
+          <span class="badge b-purple" id="ai-unit-badge">—</span>
+          <span style="font-size:11px;color:var(--text3);" id="ai-blocks-count"></span>
+        </div>
+        <div class="course-title" id="ai-course-title">—</div>
+        <div class="course-sub">تفاعل مع المحتوى — النظام يرصد أسلوب تعلمك تلقائياً</div>
+      </div>
+
+      <div class="tab-scroll" id="ai-topic-tabs"></div>
+      <div id="ai-topic-content"></div>
+
+      <div class="hint-bar">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <span class="hint-text" id="ai-hinttxt">اضغط على أي بلوك محتوى — كلما تفاعلت أكثر، كلما دقّ التحليل</span>
+      </div>
+
+      <div class="min-hint" id="ai-min-hint">
+        ⚠️ تفاعل مع عنصرين على الأقل للحصول على تحليل دقيق
+      </div>
+
+      <div id="ai-abtnw" style="display:none;">
+        <button class="pbtn" onclick="tryGoAnalysisAI()">
+          <span>اكتشف نمط تعلمك واحصل على شرح مخصص</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
       </div>
 
     </div>
@@ -876,8 +1288,7 @@ function switchTopic(t,el){
 
 function goAnalysis(){
   Object.values(TI).forEach(clearInterval);
-  document.getElementById('s1').classList.remove('on');
-  document.getElementById('s2').classList.add('on');
+  showScreen('s2');
   setDots(2);
   document.getElementById('sv').textContent=T.video+'s';
   document.getElementById('st').textContent=T.text+'s';
@@ -899,8 +1310,7 @@ function goAnalysis(){
 }
 
 function goExplain(){
-  document.getElementById('s2').classList.remove('on');
-  document.getElementById('s3').classList.add('on');
+  showScreen('s3');
   setDots(3);
   const dom=getDom();
   const exp=getExpls()[dom];
@@ -946,23 +1356,701 @@ function resetAll(){
   Object.assign(T,{video:0,text:0,diagram:0,quiz:0,discuss:0});
   Object.values(TI).forEach(clearInterval);
   Object.keys(TI).forEach(k=>delete TI[k]);
-  vCount=0;
-  document.getElementById('abtnw').style.display='none';
-  document.getElementById('hinttxt').textContent=getS().hintDefault;
-  document.getElementById('pbar').style.width='0%';
-  document.getElementById('ptxt').textContent='0%';
+  vCount=0; aiVCount=0; sessionStart=Date.now();
   document.getElementById('s3extra').style.display='none';
   document.getElementById('aicont').innerHTML='<div class="typing"><span></span><span></span><span></span></div>';
-  ['s2','s3'].forEach(id=>document.getElementById(id).classList.remove('on'));
-  document.getElementById('s1').classList.add('on');
+  document.getElementById('s0-result-wrap').innerHTML='';
+  document.getElementById('s0-file-input').value='';
+  showScreen('s0');
   setDots(1);
-  renderTabs();
-  renderBlocks();
+}
+
+/* ════════════════════════════════════════
+   GAMIFICATION
+════════════════════════════════════════ */
+let points = 0, streakCount = 0, badgesEarned = [];
+const BADGES = {
+  first:   { icon:'🥇', title: { ar:'أول تفاعل!',      en:'First Interaction!' }, sub: { ar:'بدأت رحلة التعلم',   en:'Your learning journey begins' } },
+  explorer:{ icon:'🔍', title: { ar:'مستكشف!',          en:'Explorer!' },          sub: { ar:'تفاعلت مع ٣ أنواع',   en:'Interacted with 3 types' } },
+  streak3: { icon:'🔥', title: { ar:'streak ×3 🔥',     en:'Streak ×3 🔥' },       sub: { ar:'٣ بلوكات متتالية',    en:'3 blocks in a row' } },
+  quiz5:   { icon:'🧠', title: { ar:'متعلم تطبيقي!',    en:'Applied Learner!' },   sub: { ar:'+5 نقاط من الكويز',   en:'+5 points from quiz' } },
+  ready:   { icon:'✅', title: { ar:'مستعد للتحليل!',   en:'Ready to Analyze!' },  sub: { ar:'تفاعلت مع كافٍ',     en:'Enough interaction collected' } }
+};
+
+function addPoints(n){ points+=n; document.getElementById('points-val').textContent=points; }
+function addStreak(){
+  streakCount++;
+  document.getElementById('streak-val').textContent=streakCount;
+  if(streakCount===3) earnBadge('streak3');
+}
+function earnBadge(key){
+  if(badgesEarned.includes(key)) return;
+  badgesEarned.push(key);
+  document.getElementById('badges-val').textContent=badgesEarned.length;
+  showToast(BADGES[key]);
+}
+function showToast(b){
+  const t=document.getElementById('badge-toast');
+  document.getElementById('toast-icon').textContent=b.icon;
+  document.getElementById('toast-title').textContent=b.title[lang];
+  document.getElementById('toast-sub').textContent=b.sub[lang];
+  t.style.display='flex';
+  clearTimeout(window._toastTimer);
+  window._toastTimer=setTimeout(()=>{ t.style.display='none'; }, 3000);
+}
+
+/* ════════════════════════════════════════
+   POPUP
+════════════════════════════════════════ */
+function closePopup(){
+  const p=document.getElementById('welcome-popup');
+  p.style.animation='fadeIn 0.2s ease reverse';
+  setTimeout(()=>{ p.style.display='none'; addGuidedPulse(); }, 180);
+}
+
+function addGuidedPulse(){
+  const first=document.querySelector('#topic-content .cblock:first-child');
+  if(first){ first.classList.add('guided-pulse'); setTimeout(()=>first.classList.remove('guided-pulse'),5000); }
+}
+
+/* ════════════════════════════════════════
+   MIN INTERACTION GATE
+════════════════════════════════════════ */
+let sessionStart = Date.now();
+
+function tryGoAnalysis(){
+  const elapsed=(Date.now()-sessionStart)/1000;
+  if(elapsed < 20){
+    const hint=document.getElementById('min-hint');
+    hint.style.display='flex';
+    hint.scrollIntoView({behavior:'smooth',block:'nearest'});
+    setTimeout(()=>hint.style.display='none', 3500);
+    return;
+  }
+  goAnalysis();
+}
+
+/* override visitB to add gamification */
+const _origVisitB = visitB;
+visitB = function(type,id,el){
+  _origVisitB(type,id,el);
+  addPoints(type==='quiz'?5:3);
+  addStreak();
+  if(vCount===1) earnBadge('first');
+  if(Object.keys(T).filter(k=>T[k]>0).length>=3) earnBadge('explorer');
+  if(vCount>=3){ earnBadge('ready'); document.getElementById('interact-hint-txt').textContent=lang==='ar'?'جاهز للتحليل ✓':'Ready to analyze ✓'; }
+};
+
+const _origCheckQ = checkQ;
+checkQ = function(el,res){
+  _origCheckQ(el,res);
+  if(res==='correct'){ addPoints(5); earnBadge('quiz5'); }
+};
+
+/* ════════════════════════════════════════
+   SCREEN NAVIGATION
+════════════════════════════════════════ */
+function showScreen(id){
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
+  const el=document.getElementById(id);
+  if(el) el.classList.add('on');
+}
+
+function goToUpload(){
+  showScreen('s0');
+  setDots(1);
+}
+
+function loadPreset(type){
+  if(type==='sa'){
+    showScreen('s1');
+    setDots(1);
+    renderTabs(); renderBlocks();
+    setTimeout(addGuidedPulse,400);
+    // update file banner
+    const b=document.getElementById('s1-file-banner');
+    if(b){ b.style.display='flex'; document.getElementById('s1-file-name').textContent='مادة تحليل وتصميم نظم (نموذج جاهز)'; }
+  } else {
+    showScreen('s1wd');
+    setDots(1);
+    renderWDTabs(); renderWDBlocks();
+    document.getElementById('s1wd-file-name').textContent='مادة تطوير الويب (نموذج جاهز)';
+    setTimeout(()=>{
+      const first=document.querySelector('#wd-topic-content .cblock:first-child');
+      if(first){ first.classList.add('guided-pulse'); setTimeout(()=>first.classList.remove('guided-pulse'),5000); }
+    },300);
+  }
+}
+
+/* ════════════════════════════════════════
+   FILE UPLOAD — UNIVERSAL
+════════════════════════════════════════ */
+function getFileSize(bytes){
+  if(bytes<1024) return bytes+'B';
+  if(bytes<1048576) return (bytes/1024).toFixed(1)+'KB';
+  return (bytes/1048576).toFixed(1)+'MB';
+}
+
+function fileToBase64(file){
+  return new Promise((res,rej)=>{
+    const r=new FileReader();
+    r.onload=()=>res(r.result.split(',')[1]);
+    r.onerror=()=>rej(new Error('Read failed'));
+    r.readAsDataURL(file);
+  });
+}
+
+function getMediaType(file){
+  const n=file.name.toLowerCase();
+  if(file.type==='application/pdf'||n.endsWith('.pdf')) return 'application/pdf';
+  if(n.endsWith('.png')) return 'image/png';
+  if(n.endsWith('.jpg')||n.endsWith('.jpeg')) return 'image/jpeg';
+  if(n.endsWith('.webp')) return 'image/webp';
+  return null;
+}
+
+function isTextFile(file){
+  const n=file.name.toLowerCase();
+  return ['.txt','.html','.htm','.css','.js','.jsx','.ts','.md','.json'].some(e=>n.endsWith(e));
+}
+
+function detectSubjectFromName(name){
+  const n = name.toLowerCase();
+  // Systems Analysis keywords
+  const saKw = ['تحليل','نظم','system','uml','sdlc','agile','waterfall','class diagram','use case','sequence','er diagram','dfd','requirements','متطلبات','تصميم نظم','analysis','design'];
+  // Web Dev keywords
+  const wdKw = ['html','css','javascript','js','react','frontend','web','تطوير ويب','موقع'];
+  
+  let saScore = saKw.filter(k=>n.includes(k)).length;
+  let wdScore = wdKw.filter(k=>n.includes(k)).length;
+  
+  if(saScore > wdScore && saScore > 0) return 'sa';
+  if(wdScore > saScore && wdScore > 0) return 'wd';
+  return null; // unknown → use AI
+}
+
+function showS0Loading(fileName){
+  const wrap = document.getElementById('s0-result-wrap');
+  wrap.innerHTML=`
+    <div class="file-result-card" style="border-left:3px solid var(--blue);margin-top:14px;">
+      <div style="display:flex;align-items:center;gap:12px;padding:4px 0 8px;">
+        <div style="width:36px;height:36px;border-radius:9px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${fileName}</div>
+          <div style="display:flex;align-items:center;gap:7px;">
+            <div class="typing"><span></span><span></span><span></span></div>
+            <span style="font-size:12px;color:var(--text2);">Claude يحلّل المادة ويبني الدرس...</span>
+          </div>
+        </div>
+      </div>
+      <div style="height:4px;background:var(--bg2);border-radius:2px;overflow:hidden;">
+        <div id="s0-prog-bar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--blue),#3B9FFF);border-radius:2px;transition:width 0.6s ease;"></div>
+      </div>
+    </div>`;
+  
+  let pct=0;
+  const iv=setInterval(()=>{
+    pct=Math.min(pct+(Math.random()*7+3),88);
+    const pb=document.getElementById('s0-prog-bar');
+    if(pb) pb.style.width=pct+'%'; else clearInterval(iv);
+  },500);
+  return iv;
+}
+
+async function analyzeFileWithAI(file){
+  const mediaType = getMediaType(file);
+  const textBased = isTextFile(file);
+  const ext = file.name.split('.').pop().toUpperCase();
+  const isAr = lang === 'ar';
+
+  const systemPrompt = `You are an expert educational content designer for AdaptLearn, an adaptive learning platform.
+
+Analyze the uploaded study material and generate structured learning content in JSON.
+IMPORTANT: Respond ONLY with raw JSON — no markdown, no backticks, no extra text.
+
+JSON structure:
+{
+  "subject": "detected subject name (Arabic if Arabic file)",
+  "courseName": "course title",
+  "courseUnit": "unit/chapter name",
+  "topics": [
+    {
+      "key": "topickey",
+      "label": "Topic Label",
+      "blocks": [
+        {
+          "id": "video",
+          "type": "video",
+          "title": "block title",
+          "sub": "subtitle e.g. شرح مرئي",
+          "badge": "b-blue",
+          "badgeL": "${isAr?'بصري':'Visual'}",
+          "visual": "HTML string — a styled card summarizing key visual concepts from this topic. Use inline styles with single quotes only. No iframes."
+        },
+        {
+          "id": "text",
+          "type": "text",
+          "title": "block title",
+          "sub": "${isAr?'قراءة ~5 دقائق':'Reading ~5 min'}",
+          "badge": "b-purple",
+          "badgeL": "${isAr?'لفظي':'Verbal'}",
+          "visual": "HTML string — a detailed text explanation paragraph. Use: <p style='font-size:13px;color:var(--text2);line-height:1.85;margin-top:8px;'>...</p>"
+        },
+        {
+          "id": "diagram",
+          "type": "diagram",
+          "title": "block title",
+          "sub": "${isAr?'مخطط بصري':'Visual Diagram'}",
+          "badge": "b-teal",
+          "badgeL": "${isAr?'تخطيطي':'Diagrammatic'}",
+          "visual": "HTML string — a visual diagram using ONLY divs/flexbox/grid with inline styles. Show concept relationships, steps, or structure. Must look like a real diagram, not just text."
+        },
+        {
+          "id": "quiz",
+          "type": "quiz",
+          "title": "block title",
+          "sub": "${isAr?'٣ أسئلة':'3 questions'}",
+          "badge": "b-amber",
+          "badgeL": "${isAr?'تطبيقي':'Applied'}",
+          "visual": "<div style='margin-top:8px;'><p style='font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;'>question from the material?</p><div class=\\"quiz-opt\\" onclick=\\"checkQ(this,'correct')\\">correct answer</div><div class=\\"quiz-opt\\" onclick=\\"checkQ(this,'wrong')\\">wrong answer 1</div><div class=\\"quiz-opt\\" onclick=\\"checkQ(this,'wrong')\\">wrong answer 2</div></div>"
+        },
+        {
+          "id": "discuss",
+          "type": "discuss",
+          "title": "block title",
+          "sub": "${isAr?'نقاش':'Discussion'}",
+          "badge": "b-coral",
+          "badgeL": "${isAr?'اجتماعي':'Social'}",
+          "visual": "<div style='margin-top:8px;background:var(--bg);border-radius:10px;padding:10px 11px;font-size:12px;color:var(--text2);line-height:1.75;border:1px solid var(--border);'>a thought-provoking discussion question about the topic</div>"
+        }
+      ]
+    }
+  ]
+}
+
+Rules:
+- Generate exactly 2–4 topics based on the actual content sections/chapters
+- Every topic must have exactly 5 blocks in this order: video, text, diagram, quiz, discuss
+- Diagrams: use colored divs with borders — e.g. flexbox flows, grid comparisons, box models, step ladders
+- Quiz: questions must come directly from the file content — use correct/wrong attributes as shown
+- All content in ${isAr?'Arabic':'English'}
+- badge values are fixed: video=b-blue, text=b-purple, diagram=b-teal, quiz=b-amber, discuss=b-coral`;
+
+  let messages;
+  if(mediaType){
+    const b64 = await fileToBase64(file);
+    if(mediaType==='application/pdf'){
+      messages=[{role:'user',content:[
+        {type:'document',source:{type:'base64',media_type:'application/pdf',data:b64}},
+        {type:'text',text:`File: "${file.name}". Analyze this study material and generate the learning content JSON.`}
+      ]}];
+    } else {
+      messages=[{role:'user',content:[
+        {type:'image',source:{type:'base64',media_type:mediaType,data:b64}},
+        {type:'text',text:`File: "${file.name}". Analyze this study material image and generate the learning content JSON.`}
+      ]}];
+    }
+  } else if(textBased){
+    const r=new FileReader();
+    let text = await new Promise(res=>{r.onload=e=>res(e.target.result);r.readAsText(file);});
+    if(text.length>10000) text=text.substring(0,10000)+'...';
+    messages=[{role:'user',content:`File: "${file.name}"\n\nContent:\n${text}\n\nGenerate the learning content JSON from this material.`}];
+  } else {
+    messages=[{role:'user',content:`File name: "${file.name}" (${ext}, ${getFileSize(file.size)}). Based on the file name and type, generate comprehensive educational learning content JSON for this subject.`}];
+  }
+
+  const resp = await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:4000,system:systemPrompt,messages})
+  });
+  const data = await resp.json();
+  const raw = data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim();
+  return JSON.parse(raw);
+}
+
+async function processUniversalUpload(file){
+  const progressIv = showS0Loading(file.name);
+  
+  try {
+    // Quick check: does filename suggest SA or WD?
+    const detected = detectSubjectFromName(file.name);
+    
+    const result = await analyzeFileWithAI(file);
+    clearInterval(progressIv);
+    const pb=document.getElementById('s0-prog-bar');
+    if(pb){ pb.style.width='100%'; pb.style.background='linear-gradient(90deg,#1D9E75,#2ECC71)'; }
+    await new Promise(r=>setTimeout(r,300));
+
+    // Determine which course screen to go to
+    const subjectLC = (result.subject||'').toLowerCase();
+    const isSA = subjectLC.includes('تحليل') || subjectLC.includes('نظم') || subjectLC.includes('system') || subjectLC.includes('uml') || subjectLC.includes('sdlc') || detected==='sa';
+    const isWD = subjectLC.includes('تطوير') || subjectLC.includes('web') || subjectLC.includes('html') || subjectLC.includes('javascript') || detected==='wd';
+
+    addPoints(20);
+    showToast({ icon:'🧠', title:{ ar:'تم التحليل!', en:'Analysis Done!' }, sub:{ ar:`${result.topics.length} موضوع جاهز`, en:`${result.topics.length} topics ready` } });
+
+    if(isWD){
+      // Use WD hardcoded screen but replace content with AI topics
+      document.getElementById('s1wd-file-name').textContent = file.name;
+      injectAIIntoWD(result);
+      showScreen('s1wd');
+    } else if(isWD && detected==='wd'){
+      document.getElementById('s1wd-file-name').textContent = file.name;
+      injectAIIntoWD(result);
+      showScreen('s1wd');
+    } else if(isWD){
+      document.getElementById('s1wd-file-name').textContent = file.name;
+      injectAIIntoWD(result);
+      showScreen('s1wd');
+    } else {
+      // For SA or any other subject — use the AI course screen
+      document.getElementById('s1ai-file-name').textContent = file.name;
+      document.getElementById('ai-course-title').textContent = result.courseName||result.subject||'—';
+      document.getElementById('ai-unit-badge').textContent = result.courseUnit||'';
+      document.getElementById('ai-blocks-count').textContent = result.topics.length*5+' بلوك تعليمي';
+      loadAICourse(result.topics);
+      showScreen('s1ai');
+    }
+
+    setDots(1);
+    setTimeout(()=>{
+      const first=document.querySelector('#ai-topic-content .cblock:first-child, #wd-topic-content .cblock:first-child');
+      if(first){ first.classList.add('guided-pulse'); setTimeout(()=>first.classList.remove('guided-pulse'),5000); }
+    },300);
+
+  } catch(err){
+    clearInterval(progressIv);
+    console.error(err);
+    document.getElementById('s0-result-wrap').innerHTML=`
+      <div class="file-result-card" style="margin-top:14px;border-left:3px solid var(--coral);">
+        <div style="font-size:13px;color:var(--coral);font-weight:600;">⚠️ تعذّر تحليل الملف</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:6px;">${err.message||'حاول مجدداً أو جرّب ملفاً آخر'}</div>
+      </div>`;
+  }
+}
+
+/* ── AI Topics State (for AI screen) ── */
+const AI_T={video:0,text:0,diagram:0,quiz:0,discuss:0};
+const AI_TI={};
+let aiVCount=0;
+let aiCurTopic='';
+let aiTopicsData={};
+
+function loadAICourse(topics){
+  aiTopicsData = topics.reduce((acc,t)=>{acc[t.key]=t;return acc;},{});
+  const keys = Object.keys(aiTopicsData);
+  aiCurTopic = keys[0];
+  
+  // Render tabs
+  const tabsEl=document.getElementById('ai-topic-tabs');
+  tabsEl.innerHTML=keys.map(k=>`
+    <div class="tab${k===aiCurTopic?' sel':''}" onclick="switchAITopic('${k}',this)">${aiTopicsData[k].label}</div>
+  `).join('');
+  renderAIBlocks();
+}
+
+function renderAIBlocks(){
+  const blocks = aiTopicsData[aiCurTopic]?.blocks||[];
+  const cont=document.getElementById('ai-topic-content');
+  cont.innerHTML=blocks.map((b,idx)=>`
+    <div class="cblock ${AI_T[b.type]>0?'visited':''}" id="aiblk-${b.id}-${aiCurTopic}" onclick="visitAIB('${b.type}','${b.id}-${aiCurTopic}',this)" style="animation-delay:${idx*0.05}s">
+      <div class="block-head">
+        <div class="block-icon" style="background:${getBg(b.badge)};">${getIcon(b.type)}</div>
+        <div class="block-info">
+          <div class="block-title">${b.title}</div>
+          <div class="block-sub">${b.sub}</div>
+        </div>
+        <span class="badge ${b.badge}" style="flex-shrink:0;">${b.badgeL}</span>
+      </div>
+      ${b.visual}
+      <div class="block-foot">
+        <div class="block-timer">
+          <div class="timer-dot" id="aidot-${b.id}-${aiCurTopic}" style="${AI_T[b.type]>0?'background:#1D9E75;':''}"></div>
+          <span id="aitdisp-${b.id}-${aiCurTopic}">${AI_T[b.type]>0?AI_T[b.type]+'s':(lang==='ar'?'اضغط للتفاعل':'Click to interact')}</span>
+        </div>
+        ${AI_T[b.type]>0?`<span class="done-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>${lang==='ar'?'تم':'Done'}</span>`:''}
+      </div>
+    </div>`).join('');
+}
+
+function switchAITopic(t, el){
+  aiCurTopic=t;
+  document.querySelectorAll('#ai-topic-tabs .tab').forEach(x=>x.classList.remove('sel'));
+  el.classList.add('sel');
+  renderAIBlocks();
+}
+
+function visitAIB(type, id, el){
+  Object.values(AI_TI).forEach(clearInterval);
+  Object.keys(AI_TI).forEach(k=>delete AI_TI[k]);
+  document.querySelectorAll('#ai-topic-content .cblock').forEach(b=>b.classList.remove('act'));
+  el.classList.add('act');
+  if(!el.classList.contains('visited')){el.classList.add('visited');aiVCount++;updateAIProg();}
+  AI_TI[type]=setInterval(()=>{
+    AI_T[type]++;
+    const d=document.getElementById('aidot-'+id);
+    const td=document.getElementById('aitdisp-'+id);
+    if(d) d.style.background='#1D9E75';
+    if(td) td.textContent=AI_T[type]+'s';
+  },1000);
+  addPoints(type==='quiz'?5:3); addStreak();
+  if(aiVCount===1) earnBadge('first');
+  if(aiVCount>=3){
+    document.getElementById('ai-abtnw').style.display='block';
+    document.getElementById('ai-hinttxt').textContent='رائع! يمكنك الانتقال للتحليل ✓';
+    document.getElementById('ai-interact-hint').textContent='جاهز للتحليل ✓';
+    earnBadge('ready');
+  }
+}
+
+function updateAIProg(){
+  const p=Math.min(100,Math.round((aiVCount/5)*100));
+  document.getElementById('ai-pbar').style.width=p+'%';
+  document.getElementById('ai-ptxt').textContent=p+'%';
+}
+
+function tryGoAnalysisAI(){
+  const elapsed=(Date.now()-sessionStart)/1000;
+  if(elapsed<20){
+    const hint=document.getElementById('ai-min-hint');
+    hint.style.display='flex'; setTimeout(()=>hint.style.display='none',3500); return;
+  }
+  // Go to analysis using AI_T data
+  showScreen('s2');
+  setDots(2);
+  document.getElementById('sv').textContent=AI_T.video+'s';
+  document.getElementById('st').textContent=AI_T.text+'s';
+  document.getElementById('sc').textContent=AI_T.diagram+'s';
+  document.getElementById('sq').textContent=AI_T.quiz+'s';
+  document.getElementById('sd').textContent=AI_T.discuss+'s';
+  const tot=Math.max(1,Object.values(AI_T).reduce((a,b)=>a+b,0));
+  setTimeout(()=>{
+    [['mv','mvv','video'],['ml','mlv','text'],['mc','mcv','diagram'],['mq','mqv','quiz'],['md','mdv','discuss']].forEach(([bid,vid,key])=>{
+      const p=Math.round((AI_T[key]/tot)*100);
+      document.getElementById(bid).style.width=p+'%';
+      document.getElementById(vid).textContent=p+'%';
+    });
+  },120);
+  const dom=Object.keys(AI_T).reduce((a,b)=>AI_T[a]>=AI_T[b]?a:b);
+  const S=getS();
+  document.getElementById('dstyle').textContent=S.styleMap[dom];
+  document.getElementById('ddesc').textContent=S.descs[dom];
+}
+
+/* ── Inject AI topics into WD screen ── */
+function injectAIIntoWD(result){
+  const topics = result.topics;
+  // Override wd_topics_ar with AI data
+  const newTopics = topics.reduce((acc,t)=>{acc[t.key]=t;return acc;},{});
+  
+  wdCurTopic = Object.keys(newTopics)[0];
+  const tabsEl=document.getElementById('wd-topic-tabs');
+  tabsEl.innerHTML=Object.keys(newTopics).map(k=>`
+    <div class="tab${k===wdCurTopic?' sel':''}" onclick="switchWDTopicInj('${k}',this,${JSON.stringify(newTopics).replace(/</g,'\\u003c')})">${newTopics[k].label}</div>
+  `).join('');
+  renderWDBlocksInj(newTopics, wdCurTopic);
+  window._injectedWDTopics = newTopics;
+}
+
+function switchWDTopicInj(t, el, topics){
+  const data = topics||window._injectedWDTopics;
+  wdCurTopic=t;
+  document.querySelectorAll('#wd-topic-tabs .tab').forEach(x=>x.classList.remove('sel'));
+  el.classList.add('sel');
+  renderWDBlocksInj(data, t);
+}
+
+function renderWDBlocksInj(topics, topicKey){
+  const blocks = topics[topicKey]?.blocks||[];
+  const cont=document.getElementById('wd-topic-content');
+  cont.innerHTML=blocks.map((b,idx)=>`
+    <div class="cblock ${WD_T[b.type]>0?'visited':''}" id="wdblk-${b.id}" onclick="visitWDB('${b.type}','${b.id}',this)" style="animation-delay:${idx*0.05}s">
+      <div class="block-head">
+        <div class="block-icon" style="background:${getBg(b.badge)};">${getIcon(b.type)}</div>
+        <div class="block-info">
+          <div class="block-title">${b.title}</div>
+          <div class="block-sub">${b.sub}</div>
+        </div>
+        <span class="badge ${b.badge}" style="flex-shrink:0;">${b.badgeL}</span>
+      </div>
+      ${b.visual}
+      <div class="block-foot">
+        <div class="block-timer">
+          <div class="timer-dot" id="wddot-${b.id}" style="${WD_T[b.type]>0?'background:#1D9E75;':''}"></div>
+          <span id="wdtdisp-${b.id}">${WD_T[b.type]>0?WD_T[b.type]+'s':(lang==='ar'?'اضغط للتفاعل':'Click to interact')}</span>
+        </div>
+        ${WD_T[b.type]>0?`<span class="done-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>${lang==='ar'?'تم':'Done'}</span>`:''}
+      </div>
+    </div>`).join('');
+}
+
+function handleFileUploadS0(e){
+  const file=e.target.files[0]; if(!file) return;
+  processUniversalUpload(file);
+}
+function handleDropS0(e){
+  e.preventDefault();
+  document.getElementById('s0-upload-zone').classList.remove('drag-over');
+  const file=e.dataTransfer.files[0]; if(!file) return;
+  processUniversalUpload(file);
+}
+
+/* ════════════════════════════════════════
+   WEB DEV TOPIC DATA
+════════════════════════════════════════ */
+const wd_topics_ar = {
+  html:{ label:'HTML', blocks:[
+    {id:'video',type:'video',title:'فيديو — أساسيات HTML',sub:'5 دقائق · للمبتدئين',badge:'b-blue',badgeL:'بصري',
+     visual:`<div style="margin-top:8px;border-radius:10px;overflow:hidden;"><iframe width="100%" height="175" src="https://www.youtube.com/embed/qz0aGYrrlhU" frameborder="0" allowfullscreen></iframe></div><div class="vis-diagram" style="margin-top:8px;"><div class="vis-box">&lt;html&gt;</div><div class="vis-arrow">←</div><div class="vis-box">&lt;head&gt;</div><div class="vis-arrow">+</div><div class="vis-box">&lt;body&gt;</div><div class="vis-arrow">←</div><div class="vis-box" style="background:#E0F5EE;border-color:#1D9E75;color:#085041;">Elements</div></div>`},
+    {id:'text',type:'text',title:'الـ Semantic HTML',sub:'قراءة ~5 دقائق',badge:'b-purple',badgeL:'لفظي',
+     visual:`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;"><div style="background:#E8F2FD;border-radius:9px;padding:11px;border:1px solid #B5D4F4;"><p style="font-size:12px;font-weight:700;color:#0E4A9A;margin-bottom:6px;">Semantic ✓</p><p style="font-size:11px;color:#185FA5;line-height:1.7;">&lt;header&gt; &lt;nav&gt; &lt;main&gt; &lt;article&gt; &lt;footer&gt; — وصف واضح للمحتوى</p></div><div style="background:#FDEAE3;border-radius:9px;padding:11px;border:1px solid #F0C4B8;"><p style="font-size:12px;font-weight:700;color:#C04A2A;margin-bottom:6px;">Non-Semantic ✗</p><p style="font-size:11px;color:#C04A2A;line-height:1.7;">&lt;div&gt; &lt;span&gt; — لا تحمل معنى وصفياً</p></div></div>`},
+    {id:'diagram',type:'diagram',title:'هيكل صفحة HTML',sub:'مخطط شجري',badge:'b-teal',badgeL:'تخطيطي',
+     visual:`<div style="margin-top:8px;background:var(--bg);border-radius:10px;padding:12px;border:1px solid var(--border);font-family:var(--mono);font-size:11px;line-height:1.9;direction:ltr;text-align:left;color:var(--text);">
+       &lt;html&gt;<br>&nbsp;&nbsp;├── &lt;head&gt;<br>&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── &lt;title&gt;<br>&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── &lt;meta&gt;<br>&nbsp;&nbsp;└── &lt;body&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── &lt;header&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── &lt;main&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── &lt;footer&gt;</div>`},
+    {id:'quiz',type:'quiz',title:'اختبار — HTML Elements',sub:'٣ أسئلة',badge:'b-amber',badgeL:'تطبيقي',
+     visual:`<div style="margin-top:8px;"><p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;">أي من التالي Semantic Element صحيح؟</p><div class="quiz-opt" onclick="checkQ(this,'wrong')">&lt;div class="header"&gt;</div><div class="quiz-opt" onclick="checkQ(this,'correct')">&lt;header&gt;</div><div class="quiz-opt" onclick="checkQ(this,'wrong')">&lt;container&gt;</div></div>`},
+    {id:'discuss',type:'discuss',title:'نقاش — أهمية SEO في HTML',sub:'هل يهم؟',badge:'b-coral',badgeL:'اجتماعي',
+     visual:`<div style="margin-top:8px;background:var(--bg);border-radius:10px;padding:10px 11px;font-size:12px;color:var(--text2);line-height:1.75;border:1px solid var(--border);">موضوع النقاش: كيف يؤثر استخدام Semantic HTML على تحسين محركات البحث (SEO) وتجربة قارئات الشاشة؟</div>`}
+  ]},
+  css:{ label:'CSS', blocks:[
+    {id:'video',type:'video',title:'فيديو — CSS Flexbox & Grid',sub:'8 دقائق',badge:'b-blue',badgeL:'بصري',
+     visual:`<div style="margin-top:8px;border-radius:10px;overflow:hidden;"><iframe width="100%" height="175" src="https://www.youtube.com/embed/fYq5PXgSsbE" frameborder="0" allowfullscreen></iframe></div>`},
+    {id:'text',type:'text',title:'Flexbox vs Grid',sub:'قراءة ~6 دقائق',badge:'b-purple',badgeL:'لفظي',
+     visual:`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;"><div style="background:#E8F2FD;border-radius:9px;padding:11px;border:1px solid #B5D4F4;"><p style="font-size:12px;font-weight:700;color:#0E4A9A;margin-bottom:6px;">Flexbox</p><p style="font-size:11px;color:#185FA5;line-height:1.7;">تخطيط أحادي المحور. ممتاز للـ Nav والـ Cards والـ Row/Column layouts.</p></div><div style="background:#EEEAFD;border-radius:9px;padding:11px;border:1px solid #CECBF6;"><p style="font-size:12px;font-weight:700;color:#3C3489;margin-bottom:6px;">Grid</p><p style="font-size:11px;color:#5B4FCF;line-height:1.7;">تخطيط ثنائي المحور. ممتاز للـ Page Layouts والـ Dashboards.</p></div></div>`},
+    {id:'diagram',type:'diagram',title:'CSS Box Model',sub:'مخطط تفاعلي',badge:'b-teal',badgeL:'تخطيطي',
+     visual:`<div style="margin-top:8px;text-align:center;"><div style="display:inline-block;padding:10px;border:2px solid #5B4FCF;border-radius:6px;background:#EEEAFD;font-size:11px;color:#3C3489;"><div style="padding:8px;border:2px solid #1A6FD4;border-radius:4px;background:#E8F2FD;"><div style="padding:6px;border:2px solid #0D8A6E;border-radius:3px;background:#E0F5EE;font-size:10px;color:#085041;font-weight:700;">Content</div><div style="font-size:10px;color:#0D8A6E;margin-top:2px;">Padding</div></div><div style="font-size:10px;color:#1A6FD4;margin-top:2px;">Border</div></div><div style="font-size:10px;color:#5B4FCF;margin-top:4px;">Margin</div></div>`},
+    {id:'quiz',type:'quiz',title:'اختبار — CSS Selectors',sub:'٤ أسئلة',badge:'b-amber',badgeL:'تطبيقي',
+     visual:`<div style="margin-top:8px;"><p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;">أي Selector يختار كل عناصر &lt;p&gt; داخل &lt;div class="box"&gt;؟</p><div class="quiz-opt" onclick="checkQ(this,'wrong')">.box + p</div><div class="quiz-opt" onclick="checkQ(this,'correct')">.box p</div><div class="quiz-opt" onclick="checkQ(this,'wrong')">.box > > p</div></div>`},
+    {id:'discuss',type:'discuss',title:'نقاش — CSS-in-JS vs Pure CSS',sub:'أيهما أفضل؟',badge:'b-coral',badgeL:'اجتماعي',
+     visual:`<div style="margin-top:8px;background:var(--bg);border-radius:10px;padding:10px 11px;font-size:12px;color:var(--text2);line-height:1.75;border:1px solid var(--border);">مع ظهور Tailwind وStyled-Components — هل لا يزال Pure CSS هو الخيار الأمثل؟ ما مميزات وعيوب كل نهج؟</div>`}
+  ]},
+  js:{ label:'JavaScript', blocks:[
+    {id:'video',type:'video',title:'فيديو — JavaScript DOM',sub:'7 دقائق',badge:'b-blue',badgeL:'بصري',
+     visual:`<div style="margin-top:8px;border-radius:10px;overflow:hidden;"><iframe width="100%" height="175" src="https://www.youtube.com/embed/5fb2aPlgoys" frameborder="0" allowfullscreen></iframe></div>`},
+    {id:'text',type:'text',title:'Async JS: Callbacks vs Promises vs Async/Await',sub:'قراءة ~7 دقائق',badge:'b-purple',badgeL:'لفظي',
+     visual:`<div style="margin-top:8px;background:var(--bg);border-radius:10px;padding:10px 12px;border:1px solid var(--border);font-family:var(--mono);font-size:11px;line-height:2;direction:ltr;text-align:left;color:var(--text);">// Async/Await (Modern ✓)<br>async function getData() {<br>&nbsp;&nbsp;const res = await fetch('/api');<br>&nbsp;&nbsp;const data = await res.json();<br>&nbsp;&nbsp;return data;<br>}</div>`},
+    {id:'diagram',type:'diagram',title:'Event Loop في JavaScript',sub:'كيف يعمل JS',badge:'b-teal',badgeL:'تخطيطي',
+     visual:`<div style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;"><div style="background:#E8F2FD;border-radius:8px;padding:9px;text-align:center;border:1px solid #B5D4F4;"><p style="font-size:11px;font-weight:700;color:#0E4A9A;">Call Stack</p><div style="font-size:10px;color:#185FA5;margin-top:4px;">main()<br>fn()</div></div><div style="background:#EEEAFD;border-radius:8px;padding:9px;text-align:center;border:1px solid #CECBF6;"><p style="font-size:11px;font-weight:700;color:#3C3489;">Web APIs</p><div style="font-size:10px;color:#5B4FCF;margin-top:4px;">setTimeout<br>fetch()</div></div><div style="background:#E0F5EE;border-radius:8px;padding:9px;text-align:center;border:1px solid #A8DCC8;"><p style="font-size:11px;font-weight:700;color:#085041;">Task Queue</p><div style="font-size:10px;color:#0D8A6E;margin-top:4px;">callback<br>→ Stack</div></div></div>`},
+    {id:'quiz',type:'quiz',title:'اختبار — JS Concepts',sub:'٣ أسئلة',badge:'b-amber',badgeL:'تطبيقي',
+     visual:`<div style="margin-top:8px;"><p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;">ما الفرق بين let وconst في JavaScript؟</p><div class="quiz-opt" onclick="checkQ(this,'wrong')">لا فرق بينهما</div><div class="quiz-opt" onclick="checkQ(this,'correct')">const لا يمكن إعادة تعيينه، let يمكن</div><div class="quiz-opt" onclick="checkQ(this,'wrong')">let للأرقام فقط، const للنصوص</div></div>`},
+    {id:'discuss',type:'discuss',title:'نقاش — TypeScript vs JavaScript',sub:'هل TypeScript ضرورة؟',badge:'b-coral',badgeL:'اجتماعي',
+     visual:`<div style="margin-top:8px;background:var(--bg);border-radius:10px;padding:10px 11px;font-size:12px;color:var(--text2);line-height:1.75;border:1px solid var(--border);">في المشاريع الكبيرة، هل إضافة TypeScript تستحق التعقيد الإضافي؟ ما التحديات والفوائد؟</div>`}
+  ]}
+};
+
+let wdCurTopic = 'html';
+const WD_T={video:0,text:0,diagram:0,quiz:0,discuss:0};
+const WD_TI={};
+let wdVCount=0;
+
+function renderWDTabs(){
+  const tabsEl=document.getElementById('wd-topic-tabs');
+  tabsEl.innerHTML=Object.keys(wd_topics_ar).map(k=>`
+    <div class="tab${k===wdCurTopic?' sel':''}" onclick="switchWDTopic('${k}',this)">${wd_topics_ar[k].label}</div>
+  `).join('');
+}
+
+function renderWDBlocks(){
+  const blocks=wd_topics_ar[wdCurTopic].blocks;
+  const cont=document.getElementById('wd-topic-content');
+  cont.innerHTML=blocks.map((b,idx)=>`
+    <div class="cblock ${WD_T[b.type]>0?'visited':''}" id="wdblk-${b.id}" onclick="visitWDB('${b.type}','${b.id}',this)" style="animation-delay:${idx*0.05}s">
+      <div class="block-head">
+        <div class="block-icon" style="background:${getBg(b.badge)};">${getIcon(b.type)}</div>
+        <div class="block-info">
+          <div class="block-title">${b.title}</div>
+          <div class="block-sub">${b.sub}</div>
+        </div>
+        <span class="badge ${b.badge}" style="flex-shrink:0;">${b.badgeL}</span>
+      </div>
+      ${b.visual}
+      <div class="block-foot">
+        <div class="block-timer">
+          <div class="timer-dot" id="wddot-${b.id}" style="${WD_T[b.type]>0?'background:#1D9E75;':''}"></div>
+          <span id="wdtdisp-${b.id}">${WD_T[b.type]>0?WD_T[b.type]+'s':'اضغط للتفاعل'}</span>
+        </div>
+        ${WD_T[b.type]>0?`<span class="done-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>تم</span>`:''}
+      </div>
+    </div>`).join('');
+}
+
+function visitWDB(type,id,el){
+  Object.values(WD_TI).forEach(clearInterval);
+  Object.keys(WD_TI).forEach(k=>delete WD_TI[k]);
+  document.querySelectorAll('#wd-topic-content .cblock').forEach(b=>b.classList.remove('act'));
+  el.classList.add('act');
+  if(!el.classList.contains('visited')){el.classList.add('visited');wdVCount++;updateWDProg();}
+  WD_TI[type]=setInterval(()=>{
+    WD_T[type]++;
+    const d=document.getElementById('wddot-'+id);
+    const td=document.getElementById('wdtdisp-'+id);
+    if(d)d.style.background='#1D9E75';
+    if(td)td.textContent=WD_T[type]+'s';
+  },1000);
+  addPoints(type==='quiz'?5:3); addStreak();
+  if(wdVCount===1) earnBadge('first');
+  if(wdVCount>=3){
+    document.getElementById('wd-abtnw').style.display='block';
+    document.getElementById('wd-hinttxt').textContent='رائع! يمكنك الانتقال للتحليل';
+    document.getElementById('wd-interact-hint').textContent='جاهز للتحليل ✓';
+    earnBadge('ready');
+  }
+}
+
+function switchWDTopic(t,el){
+  wdCurTopic=t;
+  document.querySelectorAll('#wd-topic-tabs .tab').forEach(x=>x.classList.remove('sel'));
+  el.classList.add('sel');
+  renderWDBlocks();
+}
+
+function updateWDProg(){
+  const p=Math.min(100,Math.round((wdVCount/5)*100));
+  document.getElementById('wd-pbar').style.width=p+'%';
+  document.getElementById('wd-ptxt').textContent=p+'%';
+}
+
+function tryGoAnalysisWD(){
+  const elapsed=(Date.now()-sessionStart)/1000;
+  if(elapsed<20){
+    const hint=document.getElementById('wd-min-hint');
+    hint.style.display='flex'; setTimeout(()=>hint.style.display='none',3500); return;
+  }
+  // Simple WD analysis: show screen 2 with WD data
+  Object.values(WD_TI).forEach(clearInterval);
+  document.getElementById('s1wd').classList.remove('on');
+  document.getElementById('s2').classList.add('on');
+  setDots(2);
+  document.getElementById('sv').textContent=WD_T.video+'s';
+  document.getElementById('st').textContent=WD_T.text+'s';
+  document.getElementById('sc').textContent=WD_T.diagram+'s';
+  document.getElementById('sq').textContent=WD_T.quiz+'s';
+  document.getElementById('sd').textContent=WD_T.discuss+'s';
+  const tot=Math.max(1,Object.values(WD_T).reduce((a,b)=>a+b,0));
+  setTimeout(()=>{
+    [['mv','mvv','video'],['ml','mlv','text'],['mc','mcv','diagram'],['mq','mqv','quiz'],['md','mdv','discuss']].forEach(([bid,vid,key])=>{
+      const p=Math.round((WD_T[key]/tot)*100);
+      document.getElementById(bid).style.width=p+'%';
+      document.getElementById(vid).textContent=p+'%';
+    });
+  },120);
+  const dom=Object.keys(WD_T).reduce((a,b)=>WD_T[a]>=WD_T[b]?a:b);
+  const S=getS();
+  document.getElementById('dstyle').textContent=S.styleMap[dom];
+  document.getElementById('ddesc').textContent=S.descs[dom];
+  document.getElementById('s2-title').textContent=lang==='ar'?'تحليل نمط تعلمك — تطوير الويب':'Your Learning Style — Web Dev';
 }
 
 /* ════════════════════════════════════════
    INIT
 ════════════════════════════════════════ */
+// Start on upload screen (s0), not s1
+document.getElementById('s1').classList.remove('on');
+document.getElementById('s0').classList.add('on');
+// Pre-render SA/WD topics in background so presets work instantly
 renderTabs();
 renderBlocks();
 </script>
