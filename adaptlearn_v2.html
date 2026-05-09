@@ -535,7 +535,6 @@ body {
       </div>
       <div>
         <div class="logo-name">AdaptLearn</div>
-        <div class="logo-sub" id="hdr-sub">تحليل و تصميم نظم المعلومات</div>
       </div>
     </div>
     
@@ -608,7 +607,7 @@ body {
         <div class="game-stat">
           <span class="game-stat-icon points-star">⭐</span>
           <span id="points-val">0</span>
-          <span style="color:var(--text2);font-weight:400;font-size:11px;" id="points-lbl">نقطة</span>
+          <span style="color:var(--text2);font-weight:400;font-size:11px;" id="points-lbl">point</span>
         </div>
         <div class="game-stat">
           <span class="game-stat-icon badge-trophy">🏅</span>
@@ -909,7 +908,7 @@ body {
 ════════════════════════════════════════ */
 const STR = {
   ar: {
-    hdrSub: 'تحليل و تصميم نظم المعلومات',
+  
     liveTxt: 'يتتبع',
     progLbl: 'تقدمك في الدرس',
     unitBadge: 'الوحدة ٢',
@@ -950,7 +949,7 @@ const STR = {
     ]
   },
   en: {
-    hdrSub: 'Systems Analysis & Design',
+   
     liveTxt: 'Tracking',
     progLbl: 'Lesson Progress',
     unitBadge: 'Unit 2',
@@ -1141,7 +1140,6 @@ function toggleLang(){
   renderTabs();
   renderBlocks();
   // update doc title
-  document.title = lang==='en' ? 'AdaptLearn — Systems Analysis & Design' : 'AdaptLearn — تحليل و تصميم نظم المعلومات';
 }
 
 function applyStrings(){
